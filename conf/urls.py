@@ -18,11 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.template.context_processors import static
 from django.urls import path
+from django.urls.conf import include
 
 from conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("shop.urls", namespace="shop")),
 ]
 
 if settings.DEBUG:
