@@ -13,6 +13,8 @@ class CategoryDB(models.Model):
     )
     parent = models.ForeignKey(
         "self",
+        blank=True,
+        null=True,
         on_delete=models.CASCADE,
         verbose_name="Категорія",
         related_name="subcategories",
@@ -52,6 +54,12 @@ class ProductDB(models.Model):
     color = models.CharField(max_length=150, verbose_name="Колір")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата оновлення")
+
+    def save(self):
+        super(ProductDB, self).save()
+        if not self.slug:
+            self.slug = slugify(self.title) + "-" + str(self.id)
+            super(ProductDB, self).save()
 
     class Meta:
         db_table = "product"
