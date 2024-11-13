@@ -50,13 +50,16 @@ class ProductDB(models.Model):
     price = models.PositiveIntegerField(verbose_name="Ціна")
     watched = models.PositiveIntegerField(default=0, verbose_name="Перегляди")
     category = models.ForeignKey(
-        CategoryDB, on_delete=models.CASCADE, verbose_name="Категорія"
+        CategoryDB,
+        on_delete=models.CASCADE,
+        related_name="products",
+        verbose_name="Категорія",
     )
     slug = models.SlugField(blank=True, unique=True, verbose_name="URL")
     material = models.CharField(max_length=150, verbose_name="Матеріал")
     color = models.CharField(max_length=150, verbose_name="Колір")
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         blank=True,
         null=True,

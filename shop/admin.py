@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+
 from .models import CategoryDB, ProductDB, SizeDB, GalleryDB, ProductVariantDB
 
 
@@ -14,9 +16,23 @@ class ProductVariantAdmin(admin.TabularInline):
 
 @admin.register(CategoryDB)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "parent", "slug"]
+    list_display = ["get_image", "id", "title", "parent", "slug", "get_product_count"]
     list_display_links = ["id", "title"]
     prepopulated_fields = {"slug": ("title",)}
+
+    def get_product_count(self, obj):
+        if obj.products:
+            return str(len(obj.products.all()))
+
+    get_product_count.short_description = "Кількість товарів"
+
+    def get_image(self, obj):
+        if obj.image:
+            return mark_safe(f"<img src='{obj.image.url}' width='75'>")
+        else:
+            return "---"
+
+    get_image.short_description = "Фото"
 
 
 @admin.register(ProductDB)
@@ -33,12 +49,13 @@ class ProductAdmin(admin.ModelAdmin):
         "material",
     ]
     list_display = [
+        "get_image",
         "id",
         "title",
         "article",
         "price",
         "color",
-        "get_products_count",
+        "get_quantity",
         "category",
         "slug",
         "created_at",
@@ -56,14 +73,23 @@ class ProductAdmin(admin.ModelAdmin):
             obj.user = request.user
         obj.save()
 
-    def get_products_count(self, obj):
+    def get_quantity(self, obj):
         count = 0
         if obj.variants:
             for variant in obj.variants.all():
                 count += variant.stock_quantity
         return count
 
-    get_products_count.short_description = "Кількість"
+    get_quantity.short_description = "Кількість"
+
+    def get_image(self, obj):
+        if obj.images:
+            image_url = obj.images.first().image.url
+            return mark_safe(f"<img src='{image_url}' width='75'>")
+        else:
+            return "---"
+
+    get_image.short_description = "Фото"
 
 
 @admin.register(GalleryDB)
