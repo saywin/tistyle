@@ -11,21 +11,6 @@ class ProductVariantAdmin(admin.TabularInline):
     extra = 1
     model = ProductVariantDB
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        # Перевіряємо, чи це поле 'size'
-        if db_field.name == "size":
-            product = request.resolver_match.kwargs.get(
-                "object_id"
-            )  # Отримуємо ID продукту
-            if product:
-                # Отримуємо категорію цього продукту
-                product_instance = ProductDB.objects.get(id=product)
-                # Фільтруємо розміри по категорії продукту
-                kwargs["queryset"] = SizeDB.objects.filter(
-                    category=product_instance.category
-                )
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
 
 @admin.register(CategoryDB)
 class CategoryAdmin(admin.ModelAdmin):
@@ -53,6 +38,7 @@ class ProductAdmin(admin.ModelAdmin):
         "article",
         "price",
         "color",
+        "get_products_count",
         "category",
         "slug",
         "created_at",
@@ -62,12 +48,22 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["id", "title", "article", "category"]
     list_filter = ["created_at", "updated_at"]
     ordering = ["-created_at"]
+    list_editable = ["price", "color", "article"]
 
     def save_model(self, request, obj, form, change):
         print(request.user)
         if not obj.user:
             obj.user = request.user
         obj.save()
+
+    def get_products_count(self, obj):
+        count = 0
+        if obj.variants:
+            for variant in obj.variants.all():
+                count += variant.stock_quantity
+        return count
+
+    get_products_count.short_description = "Кількість"
 
 
 @admin.register(GalleryDB)
