@@ -26,6 +26,7 @@ class CategoryDB(models.Model):
         related_name="subcategories",
     )
     slug = models.SlugField(blank=True, unique=True, verbose_name="URL")
+    icon = models.ImageField(upload_to="categories/icon/", null=True, blank=True)
 
     class Meta:
         db_table = "category"
@@ -33,7 +34,8 @@ class CategoryDB(models.Model):
         verbose_name_plural = "Категорії"
 
     def get_absolute_url(self):
-        pass
+        """Силка на сторінку категорії"""
+        return reverse("shop:category_detail", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.title
