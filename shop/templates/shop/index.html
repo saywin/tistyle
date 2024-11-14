@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block main %}
+		<!--------------- hero-section --------------->
+		{% include "components/_hero.html" %}
+		<!--------------- hero-section-end --------------->
+
+		<!--------------- style-section --------------->
+		{% include "components/_style.html" %}
+		<!--------------- style-section-end --------------->
+
+		<!--------------- category-section--------------->
+		{% include "components/_category.html" %}
+		<!--------------- category-section-end--------------->
+
+		<!--------------- brand-section--------------->
+		{% include "components/_brand.html" %}
+		<!--------------- brand-section-end--------------->
+
+		<!--------------- arrival-section--------------->
+		{% include "components/_arrival.html" %}
+		<!--------------- arrival-section-end--------------->
+
+		<!--------------- flash-section--------------->
+		{% include "components/_flash_time.html" %}
+		<!--------------- flash-section-end--------------->
+
+		<!--------------- top-sell-section--------------->
+		{% include "components/_top_sell.html" %}
+		<!--------------- top-sell-section-end--------------->
+
+		<!--------------- best-sell-section--------------->
+		{% include "components/_best_sell.html" %}
+		<!--------------- best-sell-section-end--------------->
+
+		<!--------------- weekly-section--------------->
+		{% include "components/_weekly.html" %}
+		<!--------------- weekly-section-end--------------->
+
+		<!--------------- flash-section--------------->
+		{% include "components/_flash.html" %}
+		<!--------------- flash-section-end--------------->
+{% endblock %}
+

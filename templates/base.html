@@ -1,10 +1,49 @@
-<!DOCTYPE html>
+{% load static %}
+<!doctype html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Title</title>
+	<meta charset="utf-8">
+	<meta name="keywords"
+	      content="ShopUS, bootstrap-5, bootstrap, sass, css, HTML Template, HTML,html, bootstrap template, free template, figma, web design, web development,front end, bootstrap datepicker, bootstrap timepicker, javascript, ecommerce template">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" href="{% static "shop/assets/images/homepage-one/icon.png" %}">
+
+	<!--title  -->
+	<title>
+		{% block title %}{% endblock %}
+	</title>
+
+	<!------------CSS------------>
+	{% include "components/_css.html" %}
 </head>
+
 <body>
+<!--------------- header-section --------------->
+<header id="header" class="header">
+	<!------header------>
+	{% include "components/_header.html" %}
+
+	<!------nav_bar_mobile------>
+	{% include "components/_navbar_mobile.html" %}
+
+	<!------navbar------>
+	{% include "components/_navbar.html" %}
+</header>
+<!--------------- header-section-end --------------->
+<main>
+	{% block main %}
+	{% endblock %}
+</main>
+<!--------------- footer-section--------------->
+{% include "components/_footer.html" %}
+<!--------------- footer-section-end--------------->
+
+<!--------JavaScript----------->
+{% include "components/_javascript.html" %}
 
 </body>
+
 </html>
