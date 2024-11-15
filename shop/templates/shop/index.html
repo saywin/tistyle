@@ -5,44 +5,58 @@
 {% endblock %}
 
 {% block main %}
-		<!--------------- hero-section --------------->
-{#		{% include "shop/components/_hero.html" %}#}
-		<!--------------- hero-section-end --------------->
-{##}
-		<!--------------- style-section --------------->
-		{% include "shop/components/_style.html" %}
-		<!--------------- style-section-end --------------->
+	<!--=========================-->
+		<!--=        Slider         =-->
+		<!--=========================-->
+		{% include "shop/components/_slider.html" %}
+		<!-- Slides end -->
 
-		<!--------------- category-section--------------->
-		{% include "shop/components/_category.html" %}
-		<!--------------- category-section-end--------------->
+		<!--=========================-->
+		<!--=        Banner         =-->
+		<!--=========================-->
+		{% include "shop/components/_banner.html" %}
+		<!-- banner -->
 
-		<!--------------- brand-section--------------->
-		{% include "shop/components/_brand.html" %}
-		<!--------------- brand-section-end--------------->
+		<!--=========================-->
+		<!--=        Product Filter      =-->
+		<!--=========================-->
 
-		<!--------------- arrival-section--------------->
-		{% include "shop/components/_arrival.html" %}
-		<!--------------- arrival-section-end--------------->
+		{% include "shop/components/_product.html" %}
 
-		<!--------------- flash-section--------------->
-		{% include "shop/components/_flash_time.html" %}
-		<!--------------- flash-section-end--------------->
+		<!-- main-product -->
 
-		<!--------------- top-sell-section--------------->
-		{% include "shop/components/_top_sell.html" %}
-		<!--------------- top-sell-section-end--------------->
+		<!--=========================-->
+		<!--=        Feature Area      =-->
+		<!--=========================-->
+		{% include "shop/components/_feature.html" %}
 
-		<!--------------- best-sell-section--------------->
-		{% include "shop/components/_best_sell.html" %}
-		<!--------------- best-sell-section-end--------------->
+		<!-- /.feature-area -->
 
-		<!--------------- weekly-section--------------->
-		{% include "shop/components/_weekly.html" %}
-		<!--------------- weekly-section-end--------------->
+		<!--=========================-->
+		<!--=   Product  area Two   =-->
+		<!--=========================-->
+		{% include "shop/components/_product_two.html" %}
 
-		<!--------------- flash-section--------------->
-		{% include "shop/components/_flash.html" %}
-		<!--------------- flash-section-end--------------->
+		<!-- main-product -->
+
+		<!--=========================-->
+		<!--=   Discount Countdown area   =-->
+		<!--=========================-->
+		{% include "shop/components/_discount.html" %}
+
+
+		<!--=========================-->
+		<!--=   Small Product area    =-->
+		<!--=========================-->
+		{% include "shop/components/_small_product.html" %}
+
+
+
+		<!--=========================-->
+		<!--=   Instagram area      =-->
+		<!--=========================-->
+		{% include "shop/components/_instagram_area.html" %}
+
+		<!-- /.instagram-area end-->
 {% endblock %}
 
