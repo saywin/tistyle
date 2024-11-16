@@ -16,7 +16,14 @@ class ProductVariantAdmin(admin.TabularInline):
 
 @admin.register(CategoryDB)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["get_image", "id", "title", "parent", "slug", "get_product_count"]
+    list_display = [
+        "get_image",
+        "id",
+        "title",
+        "parent",
+        "slug",
+        "get_product_count",
+    ]
     list_display_links = ["id", "title"]
     prepopulated_fields = {"slug": ("title",)}
 
@@ -83,7 +90,7 @@ class ProductAdmin(admin.ModelAdmin):
     get_quantity.short_description = "Кількість"
 
     def get_image(self, obj):
-        if obj.images:
+        if obj.images.first():
             image_url = obj.images.first().image.url
             return mark_safe(f"<img src='{image_url}' width='75'>")
         else:
