@@ -15,6 +15,21 @@ class Index(generic.ListView):
         categories = models.CategoryDB.objects.filter(parent=None)[:12]
         return categories
 
+    # def get_products_category(self, title: str):
+    #     men_clothing_category = models.CategoryDB.objects.get(title=title)
+    #     all_men_clothing_subclasses = men_clothing_category.subcategories.all()
+    #     filter_to_category = models.ProductDB.objects.filter(
+    #         category__in=all_men_clothing_subclasses
+    #     )
+    #     return filter_to_category
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """Вивід на сторінку допоміжні елементи"""
+        context = super().get_context_data()
+        context["top_products"] = models.ProductDB.objects.order_by("-watched")[:8]
+        context["new_arrival"] = models.ProductDB.objects.order_by("-created_at")[:8]
+        return context
+
 
 class SubCategories(generic.ListView):
     """Вивід підкатегорій на окремій сторінці"""
