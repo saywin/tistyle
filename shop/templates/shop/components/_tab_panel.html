@@ -1,0 +1,50 @@
+<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+	<div class="row no-gutters">
+		<div class="col-xl-12">
+			{% for product in products %}
+				<div class="sin-product list-pro">
+					<div class="row">
+						<div class="col-md-5 col-lg-6 col-xl-4">
+							<div class="pro-img">
+								<img src="{{ product.get_first_photo }}" alt="">
+							</div>
+							<div class="pro-icon">
+								<ul>
+									<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
+									<li><a href="#"><i class="flaticon-compare"></i></a></li>
+									<li><a href="#" class="trigger"><i class="flaticon-eye"></i></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-7 col-lg-6 col-xl-8">
+							<div class="list-pro-det">
+								<h5 class="pro-title"><a href="#">{{ product.title }}</a></h5>
+								<span>{{ product.price }} грн.</span>
+								<div class="rating">
+									<ul>
+										<li><a href="#"><i class="fas fa-star"></i></a></li>
+										<li><a href="#"><i class="fas fa-star"></i></a></li>
+										<li><a href="#"><i class="fas fa-star"></i></a></li>
+										<li><a href="#"><i class="fas fa-star"></i></a></li>
+										<li><a href="#"><i class="fas fa-star"></i></a></li>
+									</ul>
+								</div>
+								<div class="color-variation">
+									<p>Колір: {{ product.color }}</p>
+								</div>
+								<p>{{ product.description }}</p>
+								<a class="btn-two" href="#">Додати в корзину</a>
+							</div>
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+			{% endfor %}
+
+
+			<!-- /.sin-product-->
+		</div>
+		<!-- /.col-xl-12 -->
+	</div>
+	<!-- /.col-xl-12 -->
+</div>
