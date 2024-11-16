@@ -46,7 +46,7 @@ class CategoryDB(models.Model):
 
 class ProductDB(models.Model):
     title = models.CharField(max_length=255, verbose_name="Товар")
-    article = models.CharField(max_length=50, verbose_name="Артикул")
+    article = models.CharField(max_length=50, unique=True, verbose_name="Артикул")
     description = models.TextField(verbose_name="Опис")
     info = models.TextField(verbose_name="Додаткова інформація")
     price = models.PositiveIntegerField(verbose_name="Ціна")
@@ -76,6 +76,12 @@ class ProductDB(models.Model):
         if not self.slug:
             self.slug = slugify(self.title) + "-" + str(self.id)
             super(ProductDB, self).save()
+
+    def get_first_photo(self):
+        if self.images.first():
+            return self.images.first().image.url
+        else:
+            return "https://cdn.pixabay.com/photo/2017/07/28/23/18/coming-soon-2550190_1280.jpg"
 
     class Meta:
         db_table = "product"
@@ -137,7 +143,7 @@ def product_image_path(instance: ProductDB, file_name: str) -> pathlib.Path:
 
 class GalleryDB(models.Model):
     image = models.ImageField(
-        upload_to=product_image_path, null=True, verbose_name="Зображення"
+        upload_to=product_image_path, null=True, blank=True, verbose_name="Зображення"
     )
     product = models.ForeignKey(
         ProductDB,
