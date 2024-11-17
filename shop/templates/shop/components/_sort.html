@@ -1,0 +1,33 @@
+{% load shop_tags %}
+{% get_subcategories category as categories %}
+{% get_sorted as data %}
+
+<div class="sidebar-widget category-widget">
+	<h6>{{ category }}: </h6>
+	<ul>
+		{% for category in categories %}
+			<li><a href="?type={{ category.slug }}">{{ category }} </a> <span>(19)</span></li>
+		{% endfor %}
+	</ul>
+</div>
+
+<div class="sidebar-widget category-widget">
+	<h6>Розмір: </h6>
+	<ul>
+		{% for size in sizes %}
+			<li><a href="?size={{ size.name }}">{{ size.name }} </a> <span>(19)</span></li>
+		{% endfor %}
+	</ul>
+</div>
+
+{% for key in data %}
+<div class="sidebar-widget category-widget">
+	<h6>{{ key.title }}: </h6>
+	<ul>
+		{% for sorter in key.sorters %}
+			<li><a href="?sort={{ sorter.0 }}">{{ sorter.1 }} </a> <span>(19)</span></li>
+		{% endfor %}
+	</ul>
+</div>
+{% endfor %}
+
