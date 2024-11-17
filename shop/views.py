@@ -40,9 +40,39 @@ class SubCategories(generic.ListView):
 
     def get_queryset(self):
         """Отримання всіх товарів категорії та її підкатегорій"""
+        type_fields = self.request.GET.get("type")
+        if type_fields:
+            products = models.ProductDB.objects.filter(category__slug=type_fields)
+            return products
+
         parent_category = models.CategoryDB.objects.get(slug=self.kwargs["slug"])
         subcategories = parent_category.subcategories.all()
         products = models.ProductDB.objects.filter(category__in=subcategories).order_by(
             "?"
         )
+
+        sort_fields = self.request.GET.get("sort")
+        if sort_fields:
+            products = products.order_by(sort_fields)
+
+        size_field = self.request.GET.get("size")
+        if size_field:
+            products = products.filter(variants__size__name=size_field)
+
         return products
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """Додаткові елементи"""
+        context = super().get_context_data()
+        parent_category = models.CategoryDB.objects.get(slug=self.kwargs["slug"])
+        context["category"] = parent_category
+        context["title"] = parent_category.title
+        print(parent_category)
+        sizes = models.SizeDB.objects.filter(
+            variants__product__category__in=parent_category.subcategories.all(),
+            variants__stock_quantity__gt=0,
+        ).distinct()
+
+        context["sizes"] = sizes.order_by("name")
+
+        return context
