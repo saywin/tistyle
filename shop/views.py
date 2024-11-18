@@ -67,7 +67,6 @@ class SubCategories(generic.ListView):
         parent_category = models.CategoryDB.objects.get(slug=self.kwargs["slug"])
         context["category"] = parent_category
         context["title"] = parent_category.title
-        print(parent_category)
         sizes = models.SizeDB.objects.filter(
             variants__product__category__in=parent_category.subcategories.all(),
             variants__stock_quantity__gt=0,
