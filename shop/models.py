@@ -4,6 +4,7 @@ import uuid
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from pytils.translit import slugify as translit_slugify
 
 from conf import settings
 from users.models import User
@@ -74,14 +75,18 @@ class ProductDB(models.Model):
     def save(self, *args, **kwargs):
         super(ProductDB, self).save()
         if not self.slug:
-            self.slug = slugify(self.title) + "-" + str(self.id)
+            self.slug = translit_slugify(self.title) + "-" + str(self.id)
             super(ProductDB, self).save()
 
     def get_first_photo(self):
+        """Отримання першого фото"""
         if self.images.first():
             return self.images.first().image.url
         else:
             return "https://cdn.pixabay.com/photo/2017/07/28/23/18/coming-soon-2550190_1280.jpg"
+
+    def get_absolute_url(self):
+        return reverse("shop:product_page", kwargs={"slug": self.slug})
 
     class Meta:
         db_table = "product"

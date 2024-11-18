@@ -72,7 +72,23 @@ class SubCategories(generic.ListView):
             variants__product__category__in=parent_category.subcategories.all(),
             variants__stock_quantity__gt=0,
         ).distinct()
-
         context["sizes"] = sizes.order_by("name")
+        return context
 
+
+class ProductPage(generic.DetailView):
+    """Вивід товару на окремій сторінці"""
+
+    model = models.ProductDB
+    context_object_name = "product"
+    template_name = "shop/product_page.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["sizes"] = self.object.variants.filter(stock_quantity__gt=0)
+        similar_goods = models.ProductDB.objects.filter(
+            category=self.object.category
+        ).exclude(id=self.object.id)
+        context["similar_goods"] = similar_goods.order_by("?")[:4]
+        context["images"] = models.GalleryDB.objects.filter(product_id=self.object.id)
         return context
