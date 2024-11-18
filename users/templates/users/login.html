@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block main %}
+
+	{% include "components/_breadcrumb.html" %}
+	<!--Login  area
+============================================= -->
+	{% include "components/_messages.html" %}
+
+	<section class="contact-area">
+		<div class="container-fluid custom-container">
+			<div class="section-heading pb-30">
+				<h3>Увійти в <span>Акаунт</span></h3>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-sm-9 col-md-8 col-lg-6 col-xl-4">
+					<div class="contact-form login-form">
+						<form action="{% url "users:user_login" %}" method="post">
+							<div class="row">
+								{% csrf_token %}
+								<div class="col-xl-12">
+									{{ login_form.username }}
+								</div>
+								<div class="col-xl-12">
+									{{ login_form.password }}
+								</div>
+								<div class="col-xl-12">
+									<input type="submit" value="Увійти">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- /.row end -->
+		</div>
+		<!-- /.container-fluid end -->
+	</section>
+	<!-- /.contact-area end -->
+
+	<section class="login-now">
+		<div class="container-fluid custom-container">
+			<div class="col-12">
+				<span>Не маєте акаунта?</span>
+				<a href="{% url "users:registration" %}" class="btn-two">Створити акаунт</a>
+			</div>
+			<!-- /.col-12 -->
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+	<!-- /.login-now -->
+{% endblock %}

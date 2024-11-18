@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block main %}
+	{% include "components/_breadcrumb.html" %}
+
+	{% include "components/_messages.html" %}
+
+	<section class="contact-area">
+		<div class="container-fluid custom-container">
+			<div class="section-heading pb-30">
+				<h3>Створити <span>Акаунт</span></h3>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-sm-9 col-md-8 col-lg-6 col-xl-4">
+					<div class="contact-form login-form">
+						<form action="{% url "users:user_registration" %}" method="post">
+							<div class="row">
+								{% csrf_token %}
+								{{ registration_form.as_table }}
+								<div class="col-xl-12">
+									<input type="submit" value="СТВОРИТИ">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- /.row end -->
+		</div>
+		<!-- /.container-fluid end -->
+	</section>
+	<!-- /.contact-area end -->
+
+	<section class="login-now">
+		<div class="container-fluid custom-container">
+			<div class="col-12">
+				<span>Вже маєте акаунт?</span>
+				<a href="login.html" class="btn-two">УВІЙТИ ЗАРАЗ</a>
+			</div>
+			<!-- /.col-12 -->
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+	<!-- /.login-now -->
+{% endblock %}
