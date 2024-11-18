@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ product.title }}
+{% endblock %}
+
+
+{% block main %}
+
+	<!--=========================-->
+		<!--=        Breadcrumb         =-->
+		<!--=========================-->
+	<section class="breadcrumb-area">
+			<div class="container-fluid custom-container">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="bc-inner">
+							<p><a href="{% url "shop:index" %}">Головна  |</a> Shop</p>
+						</div>
+					</div>
+					<!-- /.col-xl-12 -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container -->
+		</section>
+
+	<!--=========================-->
+	<!--=        Shop area          =-->
+	<!--=========================-->
+
+	<section class="shop-area single-product">
+		<div class="container-fluid custom-container">
+			<div class="row">
+				<div class="order-2 order-md-1 col-md-4 col-lg-3 col-xl-3">
+					<div class=" shop-sidebar">
+						<div class="sidebar-widget sidebar-search">
+							<input type="text" placeholder="Search Product....">
+							<button type="submit"><i class="fas fa-search"></i></button>
+						</div>
+						<div class="sidebar-widget product-widget">
+							<h6>BEST SELLERS</h6>
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb1.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="fas fa-star"></i></a></li>
+											<li><a href="#"><i class="fas fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb2.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="fas fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb3.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb4.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="sidebar-widget banner-wid">
+							<div class="img">
+								<img src="{{ product.get_first_photo }}" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.col-xl-3 -->
+				<div class="order-1 order-md-2 col-md-8 col-lg-9 col-xl-9">
+					<div class="row">
+						<div class="col-lg-6 col-xl-6">
+							<!-- Product View Slider -->
+							<div class="quickview-slider">
+								<div class="slider-for">
+										{% for image in images %}
+										<div class="">
+										<img src="{{ image.image.url }}" alt="Thumb">
+									</div>
+									{% endfor %}
+
+
+
+								</div>
+
+								<div class="slider-nav">
+									{% for image in images %}
+										<div class="">
+										<img src="{{ image.image.url }}" alt="thumb">
+									</div>
+									{% endfor %}
+
+
+
+								</div>
+							</div>
+							<!-- /.quickview-slider -->
+						</div>
+						<!-- /.col-xl-6 -->
+
+						<div class="col-lg-6 col-xl-6">
+							<div class="product-details">
+								<span>Артикул: {{ product.article }}</span>
+								<h5 class="pro-title"><a href="#">{{ product.title }}</a></h5>
+								<span class="price">Ціна : {{ product.price }}</span>грн.
+								<div class="size-variation">
+									<span>Розмір :</span>
+									<select name="size-value">
+											<option value="" selected disabled>---</option>
+										{% for variant in sizes %}
+											<option value="{{ variant.size.id }}">{{ variant.size.name }}</option>
+										{% endfor %}
+
+
+									</select>
+								</div>
+								<div class="color-checkboxes">
+									<h4>Колір: {{ product.color }}</h4>
+								</div>
+
+								<div class="add-tocart-wrap">
+									<!--PRODUCT INCREASE BUTTON START-->
+									<div class="cart-plus-minus-button">
+										<input type="text" value="1" name="qtybutton" class="cart-plus-minus">
+									</div>
+									<a href="#" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Додати до кошику</a>
+								</div>
+
+								<p>{{ product.description }}</p>
+
+								<div class="product-social">
+									<span>Поділитись :</span>
+									<ul>
+										<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+										<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+										<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+										<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+									</ul>
+								</div>
+
+							</div>
+							<!-- /.product-details -->
+						</div>
+						<!-- /.col-xl-6 -->
+
+
+						<div class="col-xl-12">
+							<div class="product-des-tab">
+								<ul class="nav nav-tabs " role="tablist">
+									<li class="nav-item">
+										<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+										   aria-controls="home" aria-selected="true">Повний опис</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+										   aria-controls="profile" aria-selected="false">ADDITIONAL INFORMATION</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+										   aria-controls="contact" aria-selected="false">REVIEWS (1)</a>
+									</li>
+								</ul>
+								<div class="tab-content" id="myTabContent">
+									<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+										<div class="prod-bottom-tab-sin description">
+											<h5>{{ product.title }}</h5>
+											<p>{{ product.info }}</p>
+
+										</div>
+									</div>
+									<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+										<div class="prod-bottom-tab-sin">
+											<h5>Additional information</h5>
+											<div class="info-wrap">
+												<div class="sin-aditional-info">
+													<div class="first">
+														Brand
+													</div>
+													<div class="secound">
+														ThemeIM
+													</div>
+												</div>
+												<div class="sin-aditional-info">
+													<div class="first">
+														Manufacturer
+													</div>
+													<div class="secound">
+														ThemeCity
+													</div>
+												</div>
+												<div class="sin-aditional-info">
+													<div class="first">
+														Colors
+													</div>
+													<div class="secound">
+														Black, Blue, Brown, Gray
+													</div>
+												</div>
+												<div class="sin-aditional-info">
+													<div class="first">
+														Brand
+													</div>
+													<div class="secound">
+														ThemeIM
+													</div>
+												</div>
+												<div class="sin-aditional-info">
+													<div class="first">
+														Brand
+													</div>
+													<div class="secound">
+														ThemeIM
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+										<div class="prod-bottom-tab-sin">
+											<h5>Review (1)</h5>
+											<div class="product-review">
+												<div class="reviwer">
+													<img src="media/images/reviewer.png" alt="">
+													<div class="review-details">
+														<span>Posted by Tonoy - Published on	March 22, 2018</span>
+														<div class="rating">
+															<ul>
+																<li><a href="#"><i class="far fa-star"></i></a></li>
+																<li><a href="#"><i class="far fa-star"></i></a></li>
+																<li><a href="#"><i class="far fa-star"></i></a></li>
+																<li><a href="#"><i class="far fa-star"></i></a></li>
+																<li><a href="#"><i class="far fa-star"></i></a></li>
+															</ul>
+														</div>
+														<p>But I must explain to you how all this mistaken idea of denouncipleasure and praisi pain
+															was born and I will give you a complete.</p>
+													</div>
+												</div>
+												<div class="add-your-review">
+													<h6>ADD A REVIEW</h6>
+													<p>YOUR RATING* </p>
+													<div class="rating">
+														<ul>
+															<li><a href="#"><i class="far fa-star"></i></a></li>
+															<li><a href="#"><i class="far fa-star"></i></a></li>
+															<li><a href="#"><i class="far fa-star"></i></a></li>
+															<li><a href="#"><i class="far fa-star"></i></a></li>
+															<li><a href="#"><i class="far fa-star"></i></a></li>
+														</ul>
+													</div>
+
+													<div class="raing-form">
+														<form action="#">
+															<input type="text" placeholder="">
+															<input type="text">
+															<textarea name="rating-form"></textarea>
+															<input type="submit">
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.col-xl-9 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+	<!-- /.shop-area -->
+
+	<section class="main-product padding-120">
+		<div class="container container-two">
+			<div class="section-heading">
+				<h3>Схожі <span>товари</span></h3>
+			</div>
+			<!-- /.section-heading-->
+			<div class="row inner-wrapper">
+				<!-- Single product -->
+				{% for similar_good in similar_goods %}
+					<div class="col-sm-6 col-lg-3 col-xl-3">
+					<div class="sin-product">
+						<div class="pro-img">
+							<img src="{{ similar_good.get_first_photo }}" alt="">
+						</div>
+						<div class="mid-wrapper">
+							<h5 class="pro-title"><a href="product.html">{{ similar_good.title }}</a></h5>
+							<span>{{ similar_good.price }} грн.</span>
+						</div>
+						<div class="pro-icon">
+							<ul>
+								<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
+								<li><a href="#"><i class="flaticon-shopping-cart"></i></a></li>
+								<li><a href="#" class="trigger"><i class="flaticon-zoom-in"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+			<!-- Row End -->
+		</div>
+		<!-- Container  -->
+	</section>
+	<!-- main-product -->
+{% endblock %}
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const sizeSelect = document.getElementById('size-select');
+        if (sizeSelect.value === "") {
+            alert('Будь ласка, виберіть розмір перед додаванням до кошика!');
+            event.preventDefault(); // Зупиняє відправку форми
+        }
+    });
+</script>
