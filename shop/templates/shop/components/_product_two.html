@@ -1,0 +1,23 @@
+<section class="banner-product">
+	<div class="container container-two">
+		<div class="section-heading pb-30">
+			<h3>Нове <span>Надходження</span></h3>
+		</div>
+		<!-- section-heading-->
+		<div class="row">
+			<div class="col-xl-12 ">
+				<div class="pro-tab-filter">
+					<div class="grid row">
+						<!-- single product -->
+						{% for product in new_arrival %}
+							<div class=" grid-item two col-6 col-md-6  col-lg-4 col-xl-3">
+								{% include "shop/components/_product_card.html" %}
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- Container-two  -->
+</section>

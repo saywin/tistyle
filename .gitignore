@@ -3,3 +3,6 @@
 /.idea/
 .env
 /shop/static
+db.sqlite3
+media/
+/wcomercio/

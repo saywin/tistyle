@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block main %}
+	<!--=========================-->
+		<!--=        Slider         =-->
+		<!--=========================-->
+		{% include "shop/components/_slider.html" %}
+		<!-- Slides end -->
+
+		<!--=========================-->
+		<!--=        Banner         =-->
+		<!--=========================-->
+		{% include "shop/components/_banner.html" %}
+		<!-- banner -->
+
+		<!--=========================-->
+		<!--=        Product Filter      =-->
+		<!--=========================-->
+
+		{% include "shop/components/_product.html" %}
+
+		<!-- main-product -->
+
+
+		<!--=========================-->
+		<!--=        Feature Area      =-->
+		<!--=========================-->
+		{% include "shop/components/_feature.html" %}
+
+		<!-- /.feature-area -->
+
+		<!--=========================-->
+		<!--=   Product  area Two   =-->
+		<!--=========================-->
+		{% include "shop/components/_product_two.html" %}
+
+		<!-- main-product -->
+
+		<!--=========================-->
+		<!--=   Discount Countdown area   =-->
+		<!--=========================-->
+		{% include "shop/components/_discount.html" %}
+
+
+		<!--=========================-->
+		<!--=   Small Product area    =-->
+		<!--=========================-->
+		{% include "shop/components/_small_product.html" %}
+
+
+
+
+		<!--=========================-->
+		<!--=   Instagram area      =-->
+		<!--=========================-->
+		{% include "shop/components/_instagram_area.html" %}
+
+		<!-- /.instagram-area end-->
+{% endblock %}
+

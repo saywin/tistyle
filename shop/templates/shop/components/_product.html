@@ -1,0 +1,24 @@
+<section class="main-product">
+	<div class="container container-two">
+		<div class="section-heading">
+			<h3>Топ <span>Товарів</span></h3>
+		</div>
+		<!-- /.section-heading-->
+		<div class="row">
+			<div class="col-xl-12 ">
+				<div class="pro-tab-filter">
+					<div class="grid row">
+						<!-- single product -->
+						{% for product in top_products %}
+							<div class=" grid-item two col-6 col-md-6  col-lg-4 col-xl-3">
+							{% include "shop/components/_product_card.html" %}
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Row End -->
+	</div>
+	<!-- Container  -->
+</section>

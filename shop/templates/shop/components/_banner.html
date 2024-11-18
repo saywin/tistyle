@@ -1,0 +1,28 @@
+{% load static %}
+
+<section class="banner padding-top-120">
+			<div class="container-fluid custom-container">
+				<div class="row">
+					{% for category in categories %}
+						<div class="col-12 col-md-3">
+						<a href="{{ category.get_absolute_url }}">
+							<div class="sin-banner align-items-center">
+								<img src="{{ category.image.url }}" width="400" alt="">
+								<div class="sin-banner-con">
+									<div class="sin-banner-inner-wrap">
+										<div class="banner-top">
+											<h4>{{ category.title }}</h4>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.sin-banner -->
+						</a>
+					</div>
+					{% endfor %}
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</section>
