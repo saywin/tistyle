@@ -58,7 +58,7 @@ class ProductDB(models.Model):
         related_name="products",
         verbose_name="Категорія",
     )
-    slug = models.SlugField(blank=True, unique=True, verbose_name="URL")
+    slug = models.SlugField(max_length=255, blank=True, unique=True, verbose_name="URL")
     material = models.CharField(max_length=150, verbose_name="Матеріал")
     color = models.CharField(max_length=150, verbose_name="Колір")
     user = models.ForeignKey(
@@ -148,7 +148,10 @@ def product_image_path(instance: ProductDB, file_name: str) -> pathlib.Path:
 
 class GalleryDB(models.Model):
     image = models.ImageField(
-        upload_to=product_image_path, null=True, blank=True, verbose_name="Зображення"
+        upload_to=product_image_path,
+        null=True,
+        blank=True,
+        verbose_name="Зображення",
     )
     product = models.ForeignKey(
         ProductDB,
