@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
 
+from review.forms import ReviewForm
+from review.models import ReviewDB
 from shop import models
 
 
@@ -90,4 +92,11 @@ class ProductPage(generic.DetailView):
         ).exclude(id=self.object.id)
         context["similar_goods"] = similar_goods.order_by("?")[:4]
         context["images"] = models.GalleryDB.objects.filter(product_id=self.object.id)
+        if self.request.user.is_authenticated:
+            context["review_form"] = ReviewForm
+        reviews = ReviewDB.objects.filter(product_id=self.object.id).order_by(
+            "-created_at"
+        )
+        context["reviews"] = reviews
+        context["count_reviews"] = reviews.count()
         return context

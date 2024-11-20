@@ -8,22 +8,22 @@
 {% block main %}
 
 	<!--=========================-->
-		<!--=        Breadcrumb         =-->
-		<!--=========================-->
+	<!--=        Breadcrumb         =-->
+	<!--=========================-->
 	<section class="breadcrumb-area">
-			<div class="container-fluid custom-container">
-				<div class="row">
-					<div class="col-xl-12">
-						<div class="bc-inner">
-							<p><a href="{% url "shop:index" %}">Головна  |</a>Shop</p>
-						</div>
+		<div class="container-fluid custom-container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="bc-inner">
+						<p><a href="{% url "shop:index" %}">Головна |</a>Shop</p>
 					</div>
-					<!-- /.col-xl-12 -->
 				</div>
-				<!-- /.row -->
+				<!-- /.col-xl-12 -->
 			</div>
-			<!-- /.container -->
-		</section>
+			<!-- /.row -->
+		</div>
+		<!-- /.container -->
+	</section>
 
 	<!--=========================-->
 	<!--=        Shop area          =-->
@@ -135,12 +135,11 @@
 							<!-- Product View Slider -->
 							<div class="quickview-slider">
 								<div class="slider-for">
-										{% for image in images %}
+									{% for image in images %}
 										<div class="">
-										<img src="{{ image.image.url }}" alt="Thumb">
-									</div>
+											<img src="{{ image.image.url }}" alt="Thumb">
+										</div>
 									{% endfor %}
-
 
 
 								</div>
@@ -148,10 +147,9 @@
 								<div class="slider-nav">
 									{% for image in images %}
 										<div class="">
-										<img src="{{ image.image.url }}" alt="thumb">
-									</div>
+											<img src="{{ image.image.url }}" alt="thumb">
+										</div>
 									{% endfor %}
-
 
 
 								</div>
@@ -168,7 +166,7 @@
 								<div class="size-variation">
 									<span>Розмір :</span>
 									<select name="size-value">
-											<option value="" selected disabled>---</option>
+										<option value="" selected disabled>---</option>
 										{% for variant in sizes %}
 											<option value="{{ variant.size.id }}">{{ variant.size.name }}</option>
 										{% endfor %}
@@ -182,9 +180,9 @@
 
 								<div class="add-tocart-wrap">
 									<!--PRODUCT INCREASE BUTTON START-->
-{#									<div class="cart-plus-minus-button">#}
-{#										<input type="text" value="1" name="qtybutton" class="cart-plus-minus">#}
-{#									</div>#}
+									{#									<div class="cart-plus-minus-button">#}
+									{#										<input type="text" value="1" name="qtybutton" class="cart-plus-minus">#}
+									{#									</div>#}
 									<a href="#" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Додати до кошику</a>
 								</div>
 
@@ -219,7 +217,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-										   aria-controls="contact" aria-selected="false">Відгуки (1)</a>
+										   aria-controls="contact" aria-selected="false">Відгуки ({{ count_reviews }})</a>
 									</li>
 								</ul>
 								<div class="tab-content" id="myTabContent">
@@ -279,12 +277,12 @@
 									</div>
 									<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 										<div class="prod-bottom-tab-sin">
-											<h5>Review (1)</h5>
+											<h5>Відгуки({{ count_reviews }})</h5>
 											<div class="product-review">
-												<div class="reviwer">
-													<img src="media/images/reviewer.png" alt="">
-													<div class="review-details">
-														<span>Posted by Tonoy - Published on	March 22, 2018</span>
+												{% if request.user.is_authenticated %}
+													<div class="add-your-review">
+														<h6>Поставте оцінку або напишіть коментар</h6>
+														<p>YOUR RATING* </p>
 														<div class="rating">
 															<ul>
 																<li><a href="#"><i class="far fa-star"></i></a></li>
@@ -294,32 +292,49 @@
 																<li><a href="#"><i class="far fa-star"></i></a></li>
 															</ul>
 														</div>
-														<p>But I must explain to you how all this mistaken idea of denouncipleasure and praisi pain
-															was born and I will give you a complete.</p>
-													</div>
-												</div>
-												<div class="add-your-review">
-													<h6>ADD A REVIEW</h6>
-													<p>YOUR RATING* </p>
-													<div class="rating">
-														<ul>
-															<li><a href="#"><i class="far fa-star"></i></a></li>
-															<li><a href="#"><i class="far fa-star"></i></a></li>
-															<li><a href="#"><i class="far fa-star"></i></a></li>
-															<li><a href="#"><i class="far fa-star"></i></a></li>
-															<li><a href="#"><i class="far fa-star"></i></a></li>
-														</ul>
-													</div>
 
-													<div class="raing-form">
-														<form action="#">
-															<input type="text" placeholder="">
-															<input type="text">
-															<textarea name="rating-form"></textarea>
-															<input type="submit">
-														</form>
+														<div class="raing-form">
+															<form action="{% url "review:save_review" product.id %}" method="post"
+															      enctype="multipart/form-data">
+																{% csrf_token %}
+																{{ review_form.as_table }}
+																<input type="submit">
+															</form>
+														</div>
 													</div>
-												</div>
+												{% else %}
+													<div class="container">
+														<h4 class="text-center">
+															Відгуки можуть залити лише авторизовані користувачі
+															<a class="fa fa-user" href="{% url "users:user_login" %}" style="color: #d19e66;">Увійти/Зареєструватись</a>
+														</h4>
+
+													</div>
+												{% endif %}
+												{% for review in reviews %}
+													<div class="reviwer">
+														<img src="media/images/reviewer.png" alt="">
+														<div class="review-details">
+															<div style="display: flex; justify-content: space-between; align-items: center;">
+																<span style="font-weight: bold; margin-right: 10px;">Автор: {{ review.author.username }}</span>
+																<span
+																		style="color: gray; font-size: 0.9em;">{{ review.created_at }}</span>
+															</div>
+															<div class="rating">
+																<ul>
+																	<li><a href="#"><i class="far fa-star"></i></a></li>
+																	<li><a href="#"><i class="far fa-star"></i></a></li>
+																	<li><a href="#"><i class="far fa-star"></i></a></li>
+																	<li><a href="#"><i class="far fa-star"></i></a></li>
+																	<li><a href="#"><i class="far fa-star"></i></a></li>
+																</ul>
+															</div>
+															<p>{{ review.text }}</p>
+														</div>
+													</div>
+												{% endfor %}
+
+
 											</div>
 										</div>
 									</div>
@@ -347,23 +362,23 @@
 				<!-- Single product -->
 				{% for similar_good in similar_goods %}
 					<div class="col-sm-6 col-lg-3 col-xl-3">
-					<div class="sin-product">
-						<div class="pro-img">
-							<img src="{{ similar_good.get_first_photo }}" alt="">
-						</div>
-						<div class="mid-wrapper">
-							<h5 class="pro-title"><a href="product.html">{{ similar_good.title }}</a></h5>
-							<span>{{ similar_good.price }} грн.</span>
-						</div>
-						<div class="pro-icon">
-							<ul>
-								<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-								<li><a href="#"><i class="flaticon-shopping-cart"></i></a></li>
-								<li><a href="#" class="trigger"><i class="flaticon-zoom-in"></i></a></li>
-							</ul>
+						<div class="sin-product">
+							<div class="pro-img">
+								<img src="{{ similar_good.get_first_photo }}" alt="">
+							</div>
+							<div class="mid-wrapper">
+								<h5 class="pro-title"><a href="product.html">{{ similar_good.title }}</a></h5>
+								<span>{{ similar_good.price }} грн.</span>
+							</div>
+							<div class="pro-icon">
+								<ul>
+									<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
+									<li><a href="#"><i class="flaticon-shopping-cart"></i></a></li>
+									<li><a href="#" class="trigger"><i class="flaticon-zoom-in"></i></a></li>
+								</ul>
+							</div>
 						</div>
 					</div>
-				</div>
 				{% endfor %}
 
 			</div>
@@ -374,7 +389,7 @@
 	<!-- main-product -->
 {% endblock %}
 <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
+    document.querySelector('form').addEventListener('submit', function (event) {
         const sizeSelect = document.getElementById('size-select');
         if (sizeSelect.value === "") {
             alert('Будь ласка, виберіть розмір перед додаванням до кошика!');
