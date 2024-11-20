@@ -1,7 +1,15 @@
 from django import template
 from shop.models import CategoryDB
 
+from django.template.defaulttags import register as range_register
+
+
 register = template.Library()
+
+
+@range_register.filter
+def get_positive_range(value):
+    return range(int(value))
 
 
 @register.simple_tag()

@@ -278,64 +278,8 @@
 									<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 										<div class="prod-bottom-tab-sin">
 											<h5>Відгуки({{ count_reviews }})</h5>
-											<div class="product-review">
-												{% if request.user.is_authenticated %}
-													<div class="add-your-review">
-														<h6>Поставте оцінку або напишіть коментар</h6>
-														<p>YOUR RATING* </p>
-														<div class="rating">
-															<ul>
-																<li><a href="#"><i class="far fa-star"></i></a></li>
-																<li><a href="#"><i class="far fa-star"></i></a></li>
-																<li><a href="#"><i class="far fa-star"></i></a></li>
-																<li><a href="#"><i class="far fa-star"></i></a></li>
-																<li><a href="#"><i class="far fa-star"></i></a></li>
-															</ul>
-														</div>
+											{% include "shop/components/_review.html" %}
 
-														<div class="raing-form">
-															<form action="{% url "review:save_review" product.id %}" method="post"
-															      enctype="multipart/form-data">
-																{% csrf_token %}
-																{{ review_form.as_table }}
-																<input type="submit">
-															</form>
-														</div>
-													</div>
-												{% else %}
-													<div class="container">
-														<h4 class="text-center">
-															Відгуки можуть залити лише авторизовані користувачі
-															<a class="fa fa-user" href="{% url "users:user_login" %}" style="color: #d19e66;">Увійти/Зареєструватись</a>
-														</h4>
-
-													</div>
-												{% endif %}
-												{% for review in reviews %}
-													<div class="reviwer">
-														<img src="media/images/reviewer.png" alt="">
-														<div class="review-details">
-															<div style="display: flex; justify-content: space-between; align-items: center;">
-																<span style="font-weight: bold; margin-right: 10px;">Автор: {{ review.author.username }}</span>
-																<span
-																		style="color: gray; font-size: 0.9em;">{{ review.created_at }}</span>
-															</div>
-															<div class="rating">
-																<ul>
-																	<li><a href="#"><i class="far fa-star"></i></a></li>
-																	<li><a href="#"><i class="far fa-star"></i></a></li>
-																	<li><a href="#"><i class="far fa-star"></i></a></li>
-																	<li><a href="#"><i class="far fa-star"></i></a></li>
-																	<li><a href="#"><i class="far fa-star"></i></a></li>
-																</ul>
-															</div>
-															<p>{{ review.text }}</p>
-														</div>
-													</div>
-												{% endfor %}
-
-
-											</div>
 										</div>
 									</div>
 								</div>

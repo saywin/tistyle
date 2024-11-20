@@ -7,7 +7,6 @@ from shop.models import ProductDB
 
 def save_review(request: HttpRequest, product_pk: int) -> HttpResponse:
     """Збереження відгуку"""
-    print(product_pk, "--------------------")
     form = ReviewForm(data=request.POST)
     if form.is_valid():
         product = ProductDB.objects.get(pk=product_pk)

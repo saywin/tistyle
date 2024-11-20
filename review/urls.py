@@ -1,8 +1,10 @@
 from django.urls import path
 
-from review.views import save_review
+from review.views import save_review, rate
 
 app_name = "review"
 
 
-urlpatterns = [path("save-review/<int:product_pk>", save_review, name="save_review")]
+urlpatterns = [
+    path("save-review/<int:product_pk>", save_review, name="save_review"),
+]
