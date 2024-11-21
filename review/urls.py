@@ -1,6 +1,6 @@
 from django.urls import path
 
-from review.views import save_review, rate
+from review.views import save_review
 
 app_name = "review"
 

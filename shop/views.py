@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.shortcuts import render
 from django.views import generic
 
@@ -99,4 +100,7 @@ class ProductPage(generic.DetailView):
         )
         context["reviews"] = reviews
         context["count_reviews"] = reviews.count()
+        context["avg_rate"] = reviews.aggregate(avg_rating=Avg("grade")).get(
+            "avg_rating"
+        )
         return context

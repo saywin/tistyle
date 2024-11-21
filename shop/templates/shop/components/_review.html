@@ -1,5 +1,3 @@
-
-
 <div class="product-review">
 	{% if request.user.is_authenticated %}
 		<div class="add-your-review">
@@ -36,6 +34,9 @@
 						{% if review.grade %}
 							{% for _ in review.grade|get_positive_range %}
 								<li><i class="fas fa-star" style="color: #d19e66;"></i></li>
+							{% endfor %}
+							{% for _ in review.grade|get_negative_range %}
+								<li><i class="far fa-star" style="color: #d19e66;"></i></li>
 							{% endfor %}
 						{% endif %}
 					</ul>

@@ -1,14 +1,15 @@
 from django.db import models
+from django.db.models import Avg
 
 from shop.models import ProductDB
 from users.models import User
 
 CHOICES = (
-    ("5", "Відмінно"),
-    ("4", "Добре"),
-    ("3", "Нормально"),
-    ("2", "Погано"),
-    ("1", "Жахливо"),
+    (5, "Відмінно"),
+    (4, "Добре"),
+    (3, "Нормально"),
+    (2, "Погано"),
+    (1, "Жахливо"),
 )
 
 
@@ -29,8 +30,12 @@ class ReviewDB(models.Model):
         verbose_name="Автор",
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
-    grade = models.CharField(
-        max_length=20, choices=CHOICES, blank=True, null=True, verbose_name="Оцінка"
+    grade = models.IntegerField(
+        max_length=20,
+        choices=CHOICES,
+        blank=True,
+        null=True,
+        verbose_name="Оцінка",
     )
 
     class Meta:

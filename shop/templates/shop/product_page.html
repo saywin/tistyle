@@ -160,7 +160,16 @@
 
 						<div class="col-lg-6 col-xl-6">
 							<div class="product-details">
-								<span>Артикул: {{ product.article }}</span>
+								<div style="display: flex; justify-content: space-between; align-items: center;">
+									<span>Артикул: {{ product.article }}</span>
+									<span>Рейтинг:
+										{% if avg_rate %}
+											{% for _ in avg_rate|get_positive_range %}
+												<i class="fas fa-star" style="color: #d19e66;"></i>
+											{% endfor %}
+											({{ avg_rate }})</span>
+										{% endif %}
+								</div>
 								<h5 class="pro-title"><a href="#">{{ product.title }}</a></h5>
 								<span class="price">Ціна : {{ product.price }}</span>грн.
 								<div class="size-variation">
@@ -170,13 +179,14 @@
 										{% for variant in sizes %}
 											<option value="{{ variant.size.id }}">{{ variant.size.name }}</option>
 										{% endfor %}
-
-
 									</select>
+
 								</div>
-								<div class="color-checkboxes">
-									<h4>Колір: {{ product.color }}</h4>
+								<div class="color-checkboxes"
+								     style="display: flex; justify-content: space-between; align-items: center;">
+									<h4 style="float: right;">Колір: {{ product.color }}</h4>
 								</div>
+
 
 								<div class="add-tocart-wrap">
 									<!--PRODUCT INCREASE BUTTON START-->
