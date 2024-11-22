@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "users",
     "review",
     "wishlist",
+    "notifications",
 ]
 
 MIDDLEWARE = [
