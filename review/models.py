@@ -31,7 +31,6 @@ class ReviewDB(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
     grade = models.IntegerField(
-        max_length=20,
         choices=CHOICES,
         blank=True,
         null=True,

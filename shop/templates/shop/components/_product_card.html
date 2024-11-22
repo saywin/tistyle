@@ -1,3 +1,6 @@
+{% load shop_tags %}
+{% load static %}
+
 <div class="sin-product style-two">
 	<a href="{{ product.get_absolute_url }}">
 		<div class="pro-img">
@@ -14,7 +17,15 @@
 		</div>
 		<div class="pro-icon">
 			<ul>
-				<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
+				{% if request.user.is_authenticated %}
+					{% get_favorite_products request.user as fav_products %}
+				{% endif %}
+				{% if product in fav_products and request.user.is_authenticated %}
+					<li><a href="{% url "wishlist:add_favorite" product.slug %}"><i class="flaticon-valentines-heart" style="color: #d19e66;"></i></a></li>
+					{% else %}
+					<li><a href="{% url "wishlist:add_favorite" product.slug %}"><i class="flaticon-valentines-heart"></i></a></li>
+				{% endif %}
+
 			</ul>
 		</div>
 	</div>

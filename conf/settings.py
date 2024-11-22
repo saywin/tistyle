@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "shop",
     "users",
     "review",
+    "wishlist",
 ]
 
 MIDDLEWARE = [
