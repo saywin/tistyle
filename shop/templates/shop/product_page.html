@@ -1,3 +1,5 @@
+
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -6,7 +8,7 @@
 
 
 {% block main %}
-
+{% load shop_tags %}
 	<!--=========================-->
 	<!--=        Breadcrumb         =-->
 	<!--=========================-->
@@ -162,12 +164,15 @@
 							<div class="product-details">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
 									<span>Артикул: {{ product.article }}</span>
-									<span>Рейтинг:
 										{% if avg_rate %}
+											<span>Рейтинг:
 											{% for _ in avg_rate|get_positive_range %}
 												<i class="fas fa-star" style="color: #d19e66;"></i>
+												</span>
 											{% endfor %}
-											({{ avg_rate }})</span>
+											({{ avg_rate }})
+											{% else %}
+											Ще немає рейтингу
 										{% endif %}
 								</div>
 								<h5 class="pro-title"><a href="#">{{ product.title }}</a></h5>
@@ -182,9 +187,21 @@
 									</select>
 
 								</div>
-								<div class="color-checkboxes"
-								     style="display: flex; justify-content: space-between; align-items: center;">
+
+								<div class="color-checkboxes">
 									<h4 style="float: right;">Колір: {{ product.color }}</h4>
+								</div>
+								{% if request.user.is_authenticated %}
+									{% get_favorite_products request.user as fav_products %}
+								{% endif %}
+								<div class="color-checkboxes">
+									{% if product in fav_products and request.user.is_authenticated %}
+										<a href="{% url "wishlist:add_favorite" product.slug %}"
+										   style="color: #636363"><i class="fas fa-heart" style="color: #d19e66;"></i>  Видалити з обраних</a>
+									{% else %}
+										<a href="{% url "wishlist:add_favorite" product.slug %}" class="far fa-heart me-2"
+										   style="color: #636363">  Додати в обрані</a>
+									{% endif %}
 								</div>
 
 
