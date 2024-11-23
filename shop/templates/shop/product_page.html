@@ -8,7 +8,7 @@
 
 
 {% block main %}
-{% load shop_tags %}
+	{% load shop_tags %}
 	<!--=========================-->
 	<!--=        Breadcrumb         =-->
 	<!--=========================-->
@@ -142,18 +142,13 @@
 											<img src="{{ image.image.url }}" alt="Thumb">
 										</div>
 									{% endfor %}
-
-
 								</div>
-
 								<div class="slider-nav">
 									{% for image in images %}
 										<div class="">
 											<img src="{{ image.image.url }}" alt="thumb">
 										</div>
 									{% endfor %}
-
-
 								</div>
 							</div>
 							<!-- /.quickview-slider -->
@@ -164,16 +159,16 @@
 							<div class="product-details">
 								<div style="display: flex; justify-content: space-between; align-items: center;">
 									<span>Артикул: {{ product.article }}</span>
-										{% if avg_rate %}
-											<span>Рейтинг:
+									{% if avg_rate %}
+										<span>Рейтинг:
 											{% for _ in avg_rate|get_positive_range %}
 												<i class="fas fa-star" style="color: #d19e66;"></i>
 												</span>
 											{% endfor %}
-											({{ avg_rate }})
-											{% else %}
-											Ще немає рейтингу
-										{% endif %}
+										({{ avg_rate }})
+									{% else %}
+										Ще немає рейтингу
+									{% endif %}
 								</div>
 								<h5 class="pro-title"><a href="#">{{ product.title }}</a></h5>
 								<span class="price">Ціна : {{ product.price }}</span>грн.
@@ -197,10 +192,11 @@
 								<div class="color-checkboxes">
 									{% if product in fav_products and request.user.is_authenticated %}
 										<a href="{% url "wishlist:add_favorite" product.slug %}"
-										   style="color: #636363"><i class="fas fa-heart" style="color: #d19e66;"></i>  Видалити з обраних</a>
+										   style="color: #636363"><i class="fas fa-heart" style="color: #d19e66;"></i> Видалити з
+											обраних</a>
 									{% else %}
 										<a href="{% url "wishlist:add_favorite" product.slug %}" class="far fa-heart me-2"
-										   style="color: #636363">  Додати в обрані</a>
+										   style="color: #636363"> Додати в обрані</a>
 									{% endif %}
 								</div>
 

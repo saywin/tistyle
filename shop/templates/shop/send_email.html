@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block main %}
+	{% include "components/_breadcrumb.html" %}
+	{% if request.user.is_superuser %}
+		<div class="container">
+			<div style="margin-top: 50px;"></div>
+			<p>
+			<h3>Назва розсилки</h3></p>
+			<form action="{% url "notifications:send_email" %}" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<textarea name="title_send_email" id="" cols="30" rows="3" placeholder="Назва..."
+				          class="form-control"></textarea>
+				<p>
+				<h3>Текст розсилки</h3></p>
+				<textarea name="text_send_email" id="" cols="30" rows="10" placeholder="Текст..."
+				          class="form-control"></textarea>
+				<button
+						class="btn btn-success"
+						type="submit"
+						style="background-color: #d19e66; border-radius: 0; margin-top: 20px;">
+					Відправити усім
+				</button>
+
+			</form>
+			<div style="margin-top: 150px;"></div>
+		</div>
+	{% else %}
+		<meta http-equiv="Refresh" content="0 url='{% url "shop:index" %}'">
+	{% endif %}
+{% endblock %}
