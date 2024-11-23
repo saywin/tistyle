@@ -4,7 +4,7 @@ from conf import settings
 
 
 class Subscriber(models.Model):
-    """Поштова розсилка"""
+    """Поштова підписка"""
 
     email = models.EmailField(unique=True, verbose_name="Електронна пошта")
     user = models.ForeignKey(
@@ -15,6 +15,7 @@ class Subscriber(models.Model):
         related_name="subscriber",
         verbose_name="Користувач",
     )
+    subscribed_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "subscriber"

@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from notifications.models import Subscriber
+
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    """Поштові підписки"""
+
+    list_display = (
+        "pk",
+        "email",
+        "user",
+    )
+    readonly_fields = ("email", "user")
