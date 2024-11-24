@@ -1,0 +1,50 @@
+<div class="product-review">
+	{% if request.user.is_authenticated %}
+		<div class="add-your-review">
+
+			<div class="raing-form">
+				<form action="{% url "review:save_review" product.id %}" method="post"
+				      enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ review_form.as_p }}
+					<p><input type="submit"></p>
+				</form>
+			</div>
+		</div>
+	{% else %}
+		<div class="container">
+			<h4 class="text-center">
+				Відгуки можуть залити лише авторизовані користувачі
+				<a class="fa fa-user" href="{% url "users:user_login" %}" style="color: #d19e66;">Увійти/Зареєструватись</a>
+			</h4>
+
+		</div>
+	{% endif %}
+	{% for review in reviews %}
+		<div class="reviwer">
+			<img src="media/images/reviewer.png" alt="">
+			<div class="review-details">
+				<div style="display: flex; justify-content: space-between; align-items: center;">
+					<span style="font-weight: bold; margin-right: 10px;">Автор: {{ review.author.username }}</span>
+					<span
+							style="color: gray; font-size: 0.9em;">{{ review.created_at }}</span>
+				</div>
+				<div class="rating">
+					<ul>
+						{% if review.grade %}
+							{% for _ in review.grade|get_positive_range %}
+								<li><i class="fas fa-star" style="color: #d19e66;"></i></li>
+							{% endfor %}
+							{% for _ in review.grade|get_negative_range %}
+								<li><i class="far fa-star" style="color: #d19e66;"></i></li>
+							{% endfor %}
+						{% endif %}
+					</ul>
+				</div>
+				<p>{{ review.text }}</p>
+			</div>
+		</div>
+	{% endfor %}
+
+
+</div>

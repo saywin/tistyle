@@ -27,7 +27,9 @@ class CategoryDB(models.Model):
         related_name="subcategories",
     )
     slug = models.SlugField(blank=True, unique=True, verbose_name="URL")
-    icon = models.ImageField(upload_to="categories/icon/", null=True, blank=True)
+    icon = models.ImageField(
+        upload_to="categories/icon/", null=True, blank=True
+    )
 
     class Meta:
         db_table = "category"
@@ -47,7 +49,9 @@ class CategoryDB(models.Model):
 
 class ProductDB(models.Model):
     title = models.CharField(max_length=255, verbose_name="Товар")
-    article = models.CharField(max_length=50, unique=True, verbose_name="Артикул")
+    article = models.CharField(
+        max_length=50, unique=True, verbose_name="Артикул"
+    )
     description = models.TextField(verbose_name="Опис")
     info = models.TextField(verbose_name="Додаткова інформація")
     price = models.PositiveIntegerField(verbose_name="Ціна")
@@ -58,7 +62,9 @@ class ProductDB(models.Model):
         related_name="products",
         verbose_name="Категорія",
     )
-    slug = models.SlugField(blank=True, unique=True, verbose_name="URL")
+    slug = models.SlugField(
+        max_length=255, blank=True, unique=True, verbose_name="URL"
+    )
     material = models.CharField(max_length=150, verbose_name="Матеріал")
     color = models.CharField(max_length=150, verbose_name="Колір")
     user = models.ForeignKey(
@@ -69,8 +75,12 @@ class ProductDB(models.Model):
         related_name="products",
         verbose_name="Користувач",
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата оновлення")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата створення"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Дата оновлення"
+    )
 
     def save(self, *args, **kwargs):
         super(ProductDB, self).save()
@@ -125,7 +135,9 @@ class ProductVariantDB(models.Model):
         related_name="variants",
         verbose_name="Розмір",
     )
-    stock_quantity = models.PositiveIntegerField(default=0, verbose_name="Кількість")
+    stock_quantity = models.PositiveIntegerField(
+        default=0, verbose_name="Кількість"
+    )
 
     class Meta:
         db_table = "product_variants"
@@ -133,9 +145,7 @@ class ProductVariantDB(models.Model):
         verbose_name_plural = "Розмірні сітки товару"
 
     def __str__(self):
-        return (
-            f"{self.product.title} - {self.size.name} ({self.stock_quantity} in stock)"
-        )
+        return f"{self.product.title} - {self.size.name} ({self.stock_quantity} in stock)"
 
 
 def product_image_path(instance: ProductDB, file_name: str) -> pathlib.Path:
@@ -148,7 +158,10 @@ def product_image_path(instance: ProductDB, file_name: str) -> pathlib.Path:
 
 class GalleryDB(models.Model):
     image = models.ImageField(
-        upload_to=product_image_path, null=True, blank=True, verbose_name="Зображення"
+        upload_to=product_image_path,
+        null=True,
+        blank=True,
+        verbose_name="Зображення",
     )
     product = models.ForeignKey(
         ProductDB,

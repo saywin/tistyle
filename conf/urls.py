@@ -24,7 +24,10 @@ from conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("shop.urls", namespace="shop")),
-    path("", include("users.urls", namespace="users")),
+    path("users/", include("users.urls", namespace="users")),
+    path("review/", include("review.urls", namespace="review")),
+    path("wishlist/", include("wishlist.urls", namespace="wishlist")),
+    path("notifications/", include("notifications.urls", namespace="notifications")),
 ]
 
 if settings.DEBUG:
