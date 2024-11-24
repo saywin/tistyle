@@ -28,6 +28,7 @@ urlpatterns = [
     path("review/", include("review.urls", namespace="review")),
     path("wishlist/", include("wishlist.urls", namespace="wishlist")),
     path("notifications/", include("notifications.urls", namespace="notifications")),
+    path("cart/", include("cart.urls", namespace="cart")),
 ]
 
 if settings.DEBUG:

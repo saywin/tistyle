@@ -83,17 +83,17 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = CustomerDB
         fields = ("first_name", "last_name", "email", "phone")
-        widgets = {
-            "first_name": forms.TextInput(
+        widgets = dict(
+            first_name=forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Анатолій"}
             ),
-            "last_name": forms.TextInput(
+            last_name=forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Серідов"}
             ),
-            "email": forms.EmailInput(
+            email=forms.EmailInput(
                 attrs={"class": "form-control", "placeholder": "user@user.com"}
             ),
-            "phone": forms.TextInput(
+            phone=forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "0991112233"}
             ),
-        }
+        )
