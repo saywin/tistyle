@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from users.models import User
+from users.models import User, CustomerDB
 
 
 class LoginForm(AuthenticationForm):
@@ -74,4 +74,26 @@ class RegistrationForm(UserCreationForm):
             "first_name": "",
             "last_name": "",
             "email": "",
+        }
+
+
+class CustomerForm(forms.ModelForm):
+    """Контактна інформація"""
+
+    class Meta:
+        model = CustomerDB
+        fields = ("first_name", "last_name", "email", "phone")
+        widgets = {
+            "first_name": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Анатолій"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Серідов"}
+            ),
+            "email": forms.EmailInput(
+                attrs={"class": "form-control", "placeholder": "user@user.com"}
+            ),
+            "phone": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "0991112233"}
+            ),
         }
