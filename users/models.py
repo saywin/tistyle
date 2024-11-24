@@ -8,7 +8,7 @@ class User(AbstractUser):
     pass
 
 
-class Customer(models.Model):
+class CustomerDB(models.Model):
     """Контактна інформація замовника"""
 
     user = models.ForeignKey(

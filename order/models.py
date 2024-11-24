@@ -6,14 +6,17 @@ from users.models import CustomerDB
 
 class OrderAddressDB(models.Model):
     customer = models.ForeignKey(
-        CustomerDB, on_delete=models.SET_NULL, null=True, verbose_name="Покупець"
+        CustomerDB,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Покупець",
     )
     cart = models.ForeignKey(
         CartDB, on_delete=models.SET_NULL, null=True, verbose_name="Кошик"
     )
     index = models.PositiveIntegerField(verbose_name="Індекс")
     city = models.CharField(max_length=255, verbose_name="Місто")
-    state = models.CharField(max_length=255, verbose_name="Район")
+    state = models.CharField(max_length=255, verbose_name="Район/Область")
     street = models.CharField(max_length=255, verbose_name="Вулиця")
     created_at = models.DateTimeField(verbose_name="Час створення")
 

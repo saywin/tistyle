@@ -23,6 +23,7 @@ class CartDB(models.Model):
         verbose_name = "Замовлення"
         verbose_name_plural = "Замовлення"
 
+    @property
     def get_price_total_cart(self):
         """Розрахунок вартості всього кошику"""
         price = 0
@@ -58,9 +59,6 @@ class CartItemDB(models.Model):
         db_table = "cart_item"
         verbose_name = "Товар в кошику"
         verbose_name_plural = "Товари в кошику"
-        constraints = [
-            UniqueConstraint(fields=["cart", "product"], name="unique_cart_products")
-        ]
 
     @property
     def get_total_price(self):
