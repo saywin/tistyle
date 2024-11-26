@@ -13,7 +13,7 @@
 	</a>
 	<div class="icon-wrapper">
 		<div class="add-to-cart">
-			<a href="#">До кошику</a>
+			<a href="{% url "cart:add_to_cart" product.id product.variants.first.size.id "add" %}">До кошику</a>
 		</div>
 		<div class="pro-icon">
 			<ul>
