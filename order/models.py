@@ -18,7 +18,7 @@ class OrderAddressDB(models.Model):
     city = models.CharField(max_length=255, verbose_name="Місто")
     state = models.CharField(max_length=255, verbose_name="Район/Область")
     street = models.CharField(max_length=255, verbose_name="Вулиця")
-    created_at = models.DateTimeField(verbose_name="Час створення")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Час створення")
 
     def __str__(self):
         return self.street

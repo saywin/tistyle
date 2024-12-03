@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "notifications",
     "cart",
     "order",
+    "payments",
 ]
 
 MIDDLEWARE = [
@@ -168,3 +169,9 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_USE_TLS = bool(int(os.getenv("EMAIL_USE_TLS")))
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+
+# Stripe
+
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")

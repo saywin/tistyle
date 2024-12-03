@@ -1,4 +1,4 @@
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 
 from cart.models import CartDB, CartItemDB
 from shop.models import ProductDB, ProductVariantDB, SizeDB
@@ -59,3 +59,11 @@ class CartForAuthenticatedUser:
 
         if action == "remove" or cart_product.quantity < 1:
             cart_product.delete()
+
+    def clear_cart(self):
+        """Видалення всіх товарів з кошика"""
+        cart = self.get_cart_info()["cart"]
+        cart_products = cart.cart_items.all()
+        for product in cart_products:
+            product.delete()
+        cart.save()
