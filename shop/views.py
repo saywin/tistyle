@@ -18,14 +18,6 @@ class Index(generic.ListView):
         categories = models.CategoryDB.objects.filter(parent=None)[:12]
         return categories
 
-    # def get_products_category(self, title: str):
-    #     men_clothing_category = models.CategoryDB.objects.get(title=title)
-    #     all_men_clothing_subclasses = men_clothing_category.subcategories.all()
-    #     filter_to_category = models.ProductDB.objects.filter(
-    #         category__in=all_men_clothing_subclasses
-    #     )
-    #     return filter_to_category
-
     def get_context_data(self, *, object_list=None, **kwargs):
         """Вивід на сторінку допоміжні елементи"""
         context = super().get_context_data()
@@ -40,6 +32,7 @@ class SubCategories(generic.ListView):
     model = models.ProductDB
     context_object_name = "products"
     template_name = "shop/category_page.html"
+    paginate_by = 12
 
     def get_queryset(self):
         """Отримання всіх товарів категорії та її підкатегорій"""

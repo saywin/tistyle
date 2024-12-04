@@ -19,7 +19,7 @@ class CartDB(models.Model):
     shipping = models.BooleanField(default=True, verbose_name="Доставка")
 
     def __str__(self):
-        return self.pk
+        return str(self.pk)
 
     class Meta:
         db_table = "cart"
