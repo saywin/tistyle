@@ -1,10 +1,11 @@
-from django.db.models import Avg
+from django.db.models import Avg, Prefetch
 from django.shortcuts import render
 from django.views import generic
 
 from review.forms import ReviewForm
 from review.models import ReviewDB
 from shop import models
+from shop.templatetags.shop_tags import get_favorite_products
 
 
 class Index(generic.ListView):
@@ -21,8 +22,20 @@ class Index(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         """Вивід на сторінку допоміжні елементи"""
         context = super().get_context_data()
-        context["top_products"] = models.ProductDB.objects.order_by("-watched")[:8]
-        context["new_arrival"] = models.ProductDB.objects.order_by("-created_at")[:8]
+        context["top_products"] = (
+            models.ProductDB.objects.order_by("-watched")[:8]
+            .prefetch_related("category")
+            .prefetch_related(
+                Prefetch("images", models.GalleryDB.objects.order_by("id"))
+            )
+        )
+        context["new_arrival"] = (
+            models.ProductDB.objects.order_by("-created_at")[:8]
+            .prefetch_related("category")
+            .prefetch_related(
+                Prefetch("images", models.GalleryDB.objects.order_by("id"))
+            )
+        )
         return context
 
 
@@ -39,13 +52,17 @@ class SubCategories(generic.ListView):
         type_fields = self.request.GET.get("type")
         if type_fields:
             products = models.ProductDB.objects.filter(category__slug=type_fields)
-            return products
+            return products.prefetch_related(
+                Prefetch("images", models.GalleryDB.objects.order_by("id"))
+            )
 
-        parent_category = models.CategoryDB.objects.get(slug=self.kwargs["slug"])
+        parent_category = models.CategoryDB.objects.prefetch_related(
+            "subcategories"
+        ).get(slug=self.kwargs["slug"])
         subcategories = parent_category.subcategories.all()
-        products = models.ProductDB.objects.filter(category__in=subcategories).order_by(
-            "?"
-        )
+        products = (
+            models.ProductDB.objects.filter(category__in=subcategories).order_by("?")
+        ).prefetch_related(Prefetch("images", models.GalleryDB.objects.order_by("id")))
 
         sort_fields = self.request.GET.get("sort")
         if sort_fields:
@@ -55,7 +72,7 @@ class SubCategories(generic.ListView):
         if size_field:
             products = products.filter(variants__size__name=size_field)
 
-        return products
+        return products.select_related("category")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """Додаткові елементи"""
@@ -68,6 +85,8 @@ class SubCategories(generic.ListView):
             variants__stock_quantity__gt=0,
         ).distinct()
         context["sizes"] = sizes.order_by("name")
+        if self.request.user.is_authenticated:
+            context["fav_products"] = get_favorite_products(self.request.user)
         return context
 
 
@@ -80,16 +99,27 @@ class ProductPage(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["sizes"] = self.object.variants.filter(stock_quantity__gt=0)
-        similar_goods = models.ProductDB.objects.filter(
-            category=self.object.category
-        ).exclude(id=self.object.id)
+        context["sizes"] = self.object.variants.filter(
+            stock_quantity__gt=0
+        ).select_related("size")
+        similar_goods = (
+            models.ProductDB.objects.filter(category=self.object.category)
+            .exclude(id=self.object.id)
+            .prefetch_related(
+                Prefetch("images", models.GalleryDB.objects.order_by("id"))
+            )
+        )
         context["similar_goods"] = similar_goods.order_by("?")[:4]
         context["images"] = models.GalleryDB.objects.filter(product_id=self.object.id)
-        if self.request.user.is_authenticated:
+        user = self.request.user
+        context["user_data"] = user if user.is_authenticated else None
+        if context["user_data"]:
             context["review_form"] = ReviewForm
-        reviews = ReviewDB.objects.filter(product_id=self.object.id).order_by(
-            "-created_at"
+
+        reviews = (
+            ReviewDB.objects.filter(product_id=self.object.id)
+            .select_related("author")
+            .order_by("-created_at")
         )
         context["reviews"] = reviews
         context["count_reviews"] = reviews.count()
