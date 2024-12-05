@@ -1,5 +1,4 @@
 from django.db.models import Avg, Prefetch
-from django.shortcuts import render
 from django.views import generic
 
 from review.forms import ReviewForm
@@ -9,6 +8,8 @@ from shop.templatetags.shop_tags import get_favorite_products
 
 
 class Index(generic.ListView):
+    """Головна сторінка"""
+
     model = models.ProductDB
     context_object_name = "categories"
     template_name = "shop/index.html"
