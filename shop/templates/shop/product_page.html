@@ -350,25 +350,28 @@
 			<!-- /.section-heading-->
 			<div class="row inner-wrapper">
 				<!-- Single product -->
-				{% for similar_good in similar_goods %}
+				{% for product in similar_goods %}
 					<div class="col-sm-6 col-lg-3 col-xl-3">
-						<div class="sin-product">
-							<div class="pro-img">
-								<img src="{{ similar_good.get_first_photo }}" alt="">
-							</div>
-							<div class="mid-wrapper">
-								<h5 class="pro-title"><a href="product.html">{{ similar_good.title }}</a></h5>
-								<span>{{ similar_good.price }} грн.</span>
-							</div>
-							<div class="pro-icon">
-								<ul>
-									<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-									<li><a href="#"><i class="flaticon-shopping-cart"></i></a></li>
-									<li><a href="#" class="trigger"><i class="flaticon-zoom-in"></i></a></li>
-								</ul>
-							</div>
-						</div>
+						{% include "shop/components/_product_card.html" %}
 					</div>
+					{#					<div class="col-sm-6 col-lg-3 col-xl-3">#}
+					{#						<div class="sin-product">#}
+					{#							<div class="pro-img">#}
+					{#								<img src="{{ similar_good.get_first_photo }}" alt="">#}
+					{#							</div>#}
+					{#							<div class="mid-wrapper">#}
+					{#								<h5 class="pro-title"><a href="product.html">{{ similar_good.title }}</a></h5>#}
+					{#								<span>{{ similar_good.price }} грн.</span>#}
+					{#							</div>#}
+					{#							<div class="pro-icon">#}
+					{#								<ul>#}
+					{#									<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>#}
+					{#									<li><a href="#"><i class="flaticon-shopping-cart"></i></a></li>#}
+					{#									<li><a href="#" class="trigger"><i class="flaticon-zoom-in"></i></a></li>#}
+					{#								</ul>#}
+					{#							</div>#}
+					{#						</div>#}
+					{#					</div>#}
 				{% endfor %}
 
 			</div>

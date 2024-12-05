@@ -50,6 +50,8 @@ def get_sorted():
 @register.simple_tag()
 def get_favorite_products(user):
     """Вивід обраних товарів на сторінку"""
-    fav = FavoriteDB.objects.filter(user=user).select_related("product")
+    fav = FavoriteDB.objects.filter(user=user).select_related(
+        "product",
+    )
     products = [i.product for i in fav]
     return products

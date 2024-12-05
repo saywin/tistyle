@@ -24,14 +24,14 @@ class Index(generic.ListView):
         context = super().get_context_data()
         context["top_products"] = (
             models.ProductDB.objects.order_by("-watched")[:8]
-            .prefetch_related("category")
+            .select_related("category")
             .prefetch_related(
                 Prefetch("images", models.GalleryDB.objects.order_by("id"))
             )
         )
         context["new_arrival"] = (
             models.ProductDB.objects.order_by("-created_at")[:8]
-            .prefetch_related("category")
+            .select_related("category")
             .prefetch_related(
                 Prefetch("images", models.GalleryDB.objects.order_by("id"))
             )
@@ -54,7 +54,7 @@ class SubCategories(generic.ListView):
             products = models.ProductDB.objects.filter(category__slug=type_fields)
             return products.prefetch_related(
                 Prefetch("images", models.GalleryDB.objects.order_by("id"))
-            )
+            ).select_related("category")
 
         parent_category = models.CategoryDB.objects.prefetch_related(
             "subcategories"
@@ -108,6 +108,7 @@ class ProductPage(generic.DetailView):
             .prefetch_related(
                 Prefetch("images", models.GalleryDB.objects.order_by("id"))
             )
+            .select_related("category")
         )
         context["similar_goods"] = similar_goods.order_by("?")[:4]
         context["images"] = models.GalleryDB.objects.filter(product_id=self.object.id)
