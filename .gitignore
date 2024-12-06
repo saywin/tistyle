@@ -6,3 +6,5 @@
 db.sqlite3
 media/
 /wcomercio/
+.coverage
+pytest.ini
