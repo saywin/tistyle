@@ -1,7 +1,8 @@
+from django.db.models import Prefetch
 from django.http import HttpRequest
 
 from cart.models import CartDB, CartItemDB
-from shop.models import ProductDB, ProductVariantDB, SizeDB
+from shop.models import ProductDB, ProductVariantDB, SizeDB, GalleryDB
 from users.models import CustomerDB
 
 
@@ -23,9 +24,17 @@ class CartForAuthenticatedUser:
         """Отримання інфо про кошик (кіл-ть та сума товарів) та замовника"""
         customer, created = CustomerDB.objects.get_or_create(user=self.user)
         cart, created = CartDB.objects.get_or_create(customer=customer)
-        products_to_cart = cart.cart_items.all()
+        products_to_cart = (
+            cart.cart_items.all()
+            .prefetch_related(
+                Prefetch("product__images", GalleryDB.objects.order_by("id"))
+            )
+            .prefetch_related(Prefetch("product", ProductDB.objects.order_by("id")))
+            .select_related("product__category", "size")
+        )
         cart_total_price = cart.get_price_total_cart
         cart_total_quantity = cart.get_cart_total_quantity
+
         context = {
             "cart": cart,
             "products_to_cart": products_to_cart,

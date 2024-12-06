@@ -1,6 +1,7 @@
 from django import template
 from django.db.models import Avg
 
+from cart.utils import CartForAuthenticatedUser
 from review.models import ReviewDB
 from shop.models import CategoryDB
 
@@ -55,3 +56,11 @@ def get_favorite_products(user):
     )
     products = [i.product for i in fav]
     return products
+
+
+@register.simple_tag()
+def get_count_fav(user):
+    fav = FavoriteDB.objects.filter(user=user).select_related(
+        "product",
+    )
+    return fav.count()

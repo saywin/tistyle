@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Prefetch
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
-from shop.models import ProductDB
+from shop.models import ProductDB, GalleryDB
 from wishlist.models import FavoriteDB
 
 
@@ -34,7 +35,13 @@ class FavoriteProductView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """Отримуємо товари конкретного користувача"""
-        favorites = FavoriteDB.objects.filter(user=self.request.user)
+        favorites = (
+            FavoriteDB.objects.filter(user=self.request.user)
+            .prefetch_related(
+                Prefetch("product__images", GalleryDB.objects.order_by("id"))
+            )
+            .prefetch_related("product__category")
+        )
         products = [i.product for i in favorites]
         return products
 
