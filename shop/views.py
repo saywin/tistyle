@@ -1,9 +1,10 @@
-from django.db.models import Avg, Prefetch
+from django.db.models import Avg, Prefetch, Q
 from django.views import generic
 
 from review.forms import ReviewForm
 from review.models import ReviewDB
 from shop import models
+from shop.models import ProductDB
 from shop.templatetags.shop_tags import get_favorite_products
 
 
@@ -129,3 +130,23 @@ class ProductPage(generic.DetailView):
             "avg_rating"
         )
         return context
+
+
+class SearchResult(generic.ListView):
+    """Пошук слова у заголовку та у змісті статей"""
+
+    template_name = "shop/search_page.html"
+    extra_context = {"title": "Пошук"}
+    context_object_name = "products"
+    paginate_by = 12
+
+    def get_queryset(self):
+        word = self.request.GET.get("q")
+        if word:
+            products = ProductDB.objects.filter(
+                Q(title__icontains=word)
+                | Q(info__icontains=word)
+                | Q(description__icontains=word)
+            )
+            return products
+        return ProductDB.objects.none()

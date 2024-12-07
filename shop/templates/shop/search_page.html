@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block main %}
+	<section class="breadcrumb-area">
+		<div class="container-fluid custom-container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="bc-inner">
+						<p><a href="{% url "shop:index" %}">Головна сторінка |</a> Обрані товари</p>
+					</div>
+				</div>
+				<!-- /.col-xl-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container -->
+	</section>
+
+	<!--=========================-->
+	<!--=        Shop area          =-->
+	<!--=========================-->
+
+	<section class="shop-area">
+		<div class="container-fluid custom-container">
+			<div class="row">
+				<div class="order-2 order-lg-1 col-lg-3 col-xl-3">
+					<div class=" shop-sidebar">
+						{#						<div class="sidebar-widget sidebar-search">#}
+						{#							<input type="text" placeholder="Search Product....">#}
+						{#							<button type="submit"><i class="fas fa-search"></i></button>#}
+						{#						</div>#}
+
+						<div class="sidebar-widget product-widget">
+							<h6>BEST SELLERS</h6>
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb1.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb2.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb3.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="wid-pro">
+								<div class="sp-img">
+									<img src="media/images/product/sb4.jpg" alt="">
+								</div>
+								<div class="small-pro-details">
+									<h5 class="title"><a href="#">Contrasting T-Shirt</a></h5>
+									<span>$60</span>
+									<span class="pre-price">$80</span>
+									<div class="rating">
+										<ul>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+											<li><a href="#"><i class="far fa-star"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="sidebar-widget banner-wid">
+							<div class="img">
+								<img src="/media/images/banner/sb1.jpg" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.col-xl-3 -->
+				<div class="order-1 order-lg-2 col-lg-9 col-xl-9">
+					<div class="shop-sorting-area row">
+						<div class="col-4 col-sm-4 col-md-6">
+							<ul class="nav nav-tabs shop-btn" id="myTab" role="tablist">
+								<li class="nav-item ">
+									<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+									   aria-controls="home" aria-selected="true"><i class="flaticon-menu"></i></a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+									   aria-controls="profile" aria-selected="false"><i class="flaticon-list"></i></a>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+					<!-- /.shop-sorting-area -->
+					{% if products %}
+						<div class="shop-content shop-four-grid">
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+								<div class="row">
+									{% for product in products %}
+										<div class="col-sm-6 col-xl-3">
+											{% include "shop/components/_product_card.html" %}
+											<!-- /.sin-product -->
+										</div>
+									{% endfor %}
+
+								</div>
+							</div>
+							<!-- /.tab-pane -->
+							{% include "shop/components/_tab_panel.html" %}
+
+							<!-- /.tab-pane -->
+						</div>
+
+						<!-- /.tab-content -->
+						<nav aria-label="Навігація сторінками">
+							<ul class="pagination justify-content-center">
+								{% if page_obj.has_previous %}
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page=1" aria-label="Перша">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"
+										   aria-label="Попередня">
+											Попередня
+										</a>
+									</li>
+								{% else %}
+									<li class="page-item disabled">
+										<span class="page-link">&laquo;</span>
+									</li>
+								{% endif %}
+
+								{% for num in page_obj.paginator.page_range %}
+									{% if page_obj.number == num %}
+										<li class="page-item active" aria-current="page">
+											<span class="page-link">{{ num }}</span>
+										</li>
+									{% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}
+										<li class="page-item">
+											<a class="page-link" href="?q={{ request.GET.q }}&page={{ num }}">{{ num }}</a>
+										</li>
+									{% endif %}
+								{% endfor %}
+
+								{% if page_obj.has_next %}
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}"
+										   aria-label="Наступна">
+											Наступна
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}"
+										   aria-label="Остання">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+								{% else %}
+									<li class="page-item disabled">
+										<span class="page-link">&raquo;</span>
+									</li>
+								{% endif %}
+							</ul>
+						</nav>
+					{% else %}
+						<h2>По вашому запиту нічого не знайдено</h2>
+					{% endif %}
+					<!-- /.load-more-wrapper -->
+					</div>
+					<!-- /.shop-content -->
+				</div>
+				<!-- /.col-xl-9 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+	<!-- /.shop-area -->
+{% endblock %}

@@ -138,17 +138,20 @@
 			<div class="col-lg-6 col-xl-3 order-lg-2 order-xl-3">
 				<div class="header-right-one">
 					<ul>
-														<li class="language">
-															<select class="custom-select">
-																<option selected>UK</option>
-																<option value="1">FRE</option>
-																<option value="2">CHI</option>
-															</select>
-														</li>
+						<li class="language">
+							<select class="custom-select">
+								<option selected>UK</option>
+								<option value="1">FRE</option>
+								<option value="2">CHI</option>
+							</select>
+						</li>
 						<li class="top-search">
-							<a href="javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i>
+							<a href="javascript:void(0)" id="search-toggle">
+								<i class="fa fa-search" aria-hidden="true"></i>
 							</a>
-							<input type="text" class="search-input" placeholder="Search">
+							<form method="get" action="{% url "shop:search" %}" class="search-form">
+								<input name="q" type="text" class="search-input" placeholder="Пошук">
+							</form>
 						</li>
 						{% if request.user.is_authenticated %}
 							<li>
