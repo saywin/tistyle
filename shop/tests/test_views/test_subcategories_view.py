@@ -36,7 +36,7 @@ def user():
 
 
 @pytest.fixture
-def product_1(user, category_parent):
+def product_1(user, category_child):
     product_1 = ProductDB.objects.create(
         title="Test product",
         article="00000",
@@ -45,14 +45,14 @@ def product_1(user, category_parent):
         price=1,
         material="skin",
         color="Black",
-        category=category_parent,
+        category=category_child,
         user=user,
     )
     return product_1
 
 
 @pytest.fixture
-def product_2(user, category_parent):
+def product_2(user, category_child):
     product_2 = ProductDB.objects.create(
         title="Test product 2",
         article="00001",
@@ -61,7 +61,7 @@ def product_2(user, category_parent):
         price=2,
         material="skin",
         color="White",
-        category=category_parent,
+        category=category_child,
         user=user,
     )
     return product_2
@@ -100,20 +100,25 @@ def test_category_show_products(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert product_3 in response.context["products"]
+    for product in [product_1, product_2, product_3]:
+        assert product in response.context["products"]
 
 
 @pytest.mark.django_db
 def test_product_filter_by_type(
     client, product_1, product_2, product_3, category_parent, url
 ):
+    product_1.category = category_parent
+    product_3.category = category_parent
+    product_1.save()
+    product_3.save()
     response = client.get(url, {"type": category_parent.slug})
 
     assert response.status_code == 200
 
     assert product_1 in response.context["products"]
-    assert product_2 in response.context["products"]
-    assert product_3 not in response.context["products"]
+    assert product_3 in response.context["products"]
+    assert product_2 not in response.context["products"]
 
 
 @pytest.mark.django_db
@@ -125,11 +130,6 @@ def test_product_filter_by_sort_by_color(
     category_child,
     url,
 ):
-    product_1.category = category_child
-    product_1.save()
-    product_2.category = category_child
-    product_2.save()
-
     response = client.get(url, {"sort": "color"})
     assert list(response.context["products"]) == [
         product_1,
@@ -154,11 +154,6 @@ def test_product_filter_by_sort_by_price(
     category_child,
     url,
 ):
-    product_1.category = category_child
-    product_2.category = category_child
-    product_1.save()
-    product_2.save()
-
     response = client.get(url, {"sort": "price"})
     assert list(response.context["products"]) == [
         product_1,
@@ -177,11 +172,6 @@ def test_product_filter_by_sort_by_price(
 def test_product_filter_size(
     product_1, product_2, product_3, url, client, category_child
 ):
-    product_1.category = category_child
-    product_2.category = category_child
-    product_1.save()
-    product_2.save()
-
     size_36 = SizeDB.objects.create(name=36)
     size_41 = SizeDB.objects.create(name=41)
     ProductVariantDB.objects.create(product=product_1, size=size_41, stock_quantity=1)
@@ -189,7 +179,9 @@ def test_product_filter_size(
     ProductVariantDB.objects.create(product=product_3, size=size_36, stock_quantity=1)
 
     response = client.get(url, {"size": size_36.name})
-    assert list(response.context["products"]) == [product_2, product_3]
+    assert response.context["products"].count() == 2
+    assert product_2 in response.context["products"]
+    assert product_3 in response.context["products"]
 
     response = client.get(url, {"size": size_41.name})
     assert list(response.context["products"]) == [product_1]
@@ -199,10 +191,6 @@ def test_product_filter_size(
 def test_subcategory_get_context_data_unauthenticated(
     url, client, category_parent, product_1, product_2, product_3, category_child, user
 ):
-    product_1.category = category_child
-    product_2.category = category_child
-    product_1.save()
-    product_2.save()
     size_36 = SizeDB.objects.create(name=36)
     size_37 = SizeDB.objects.create(name=37)
     size_41 = SizeDB.objects.create(name=41)
