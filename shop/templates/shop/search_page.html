@@ -11,7 +11,7 @@
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="bc-inner">
-						<p><a href="#">Головна сторінка |</a> {{ category }}</p>
+						<p><a href="{% url "shop:index" %}">Головна сторінка |</a> Обрані товари</p>
 					</div>
 				</div>
 				<!-- /.col-xl-12 -->
@@ -34,7 +34,6 @@
 						{#							<input type="text" placeholder="Search Product....">#}
 						{#							<button type="submit"><i class="fas fa-search"></i></button>#}
 						{#						</div>#}
-						{% include "shop/components/_sort.html" %}
 
 						<div class="sidebar-widget product-widget">
 							<h6>BEST SELLERS</h6>
@@ -121,7 +120,7 @@
 
 						<div class="sidebar-widget banner-wid">
 							<div class="img">
-								<img src="media/images/banner/sb1.jpg" alt="">
+								<img src="/media/images/banner/sb1.jpg" alt="">
 							</div>
 						</div>
 					</div>
@@ -144,7 +143,8 @@
 
 					</div>
 					<!-- /.shop-sorting-area -->
-					<div class="shop-content shop-four-grid">
+					{% if products %}
+						<div class="shop-content shop-four-grid">
 						<div class="tab-content" id="myTabContent">
 							<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 								<div class="row">
@@ -162,16 +162,72 @@
 
 							<!-- /.tab-pane -->
 						</div>
+
 						<!-- /.tab-content -->
-					{% include "shop/components/_paginator.html" %}
-						<!-- /.shop-content -->
+						<nav aria-label="Навігація сторінками">
+							<ul class="pagination justify-content-center">
+								{% if page_obj.has_previous %}
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page=1" aria-label="Перша">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"
+										   aria-label="Попередня">
+											Попередня
+										</a>
+									</li>
+								{% else %}
+									<li class="page-item disabled">
+										<span class="page-link">&laquo;</span>
+									</li>
+								{% endif %}
+
+								{% for num in page_obj.paginator.page_range %}
+									{% if page_obj.number == num %}
+										<li class="page-item active" aria-current="page">
+											<span class="page-link">{{ num }}</span>
+										</li>
+									{% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}
+										<li class="page-item">
+											<a class="page-link" href="?q={{ request.GET.q }}&page={{ num }}">{{ num }}</a>
+										</li>
+									{% endif %}
+								{% endfor %}
+
+								{% if page_obj.has_next %}
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}"
+										   aria-label="Наступна">
+											Наступна
+										</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}"
+										   aria-label="Остання">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+								{% else %}
+									<li class="page-item disabled">
+										<span class="page-link">&raquo;</span>
+									</li>
+								{% endif %}
+							</ul>
+						</nav>
+					{% else %}
+						<h2>По вашому запиту нічого не знайдено</h2>
+					{% endif %}
+					<!-- /.load-more-wrapper -->
 					</div>
-					<!-- /.col-xl-9 -->
+					<!-- /.shop-content -->
 				</div>
-				<!-- /.row -->
+				<!-- /.col-xl-9 -->
 			</div>
-			<!-- /.container-fluid -->
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
 	</section>
 	<!-- /.shop-area -->
-
 {% endblock %}

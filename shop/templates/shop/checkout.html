@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block main %}
+	<section class="breadcrumb-area">
+		<div class="container-fluid custom-container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="bc-inner">
+						<p><a href="{% url "shop:index" %}">Головна | </a> <a href="{% url "cart:user_cart" %}"> Кошик
+							|</a> {{ title }}</p>
+					</div>
+				</div>
+				<!-- /.col-xl-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container -->
+	</section>
+	<div style="margin-top: 50px"></div>
+	<section class="checkout product footer-padding">
+		<div class="container">
+			<div class="checkout-section">
+				<div class="row gy-5">
+					<div class="col-lg-8 cart-subtotal">
+						<h2>Контактна Інформація</h2>
+						<form action="{% url "payments:payment" %}" method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							{{ customer_form.as_p }}
+							{{ shipping_form.as_p }}
+							<button type="submit" class="btn btn-primary" style="background-color: #d19e66; border-radius: 0; border-color: white">ПЕРЕЙТИ ДО ОПЛАТИ</button>
+						</form>
+					</div>
+					<div class="col-xl-4">
+						<div class="cart-subtotal">
+							<p>Кошик</p>
+							<ul>
+								{% for item in products_to_cart %}
+									<li><span>{{ item.product }}</span>({{ item.size }} розмір) <br>{{ item.quantity }} шт.
+										x {{ item.product.price }} грн.
+									</li>
+								{% endfor %}
+
+								<li><span>Товари</span>{{ cart_total_quantity }} шт.</li>
+								<li><span>Всього:</span>{{ cart_total_price }} грн.</li>
+							</ul>
+
+						</div>
+						<!-- /.cart-subtotal -->
+
+
+					</div>
+
+					<!-- /.col-xl-6 -->
+					<!-- /.col-xl-6 -->
+				</div>
+			</div>
+		</div>
+		</div>
+
+	</section>
+	<div style="margin-top: 50px"></div>
+
+
+{% endblock %}

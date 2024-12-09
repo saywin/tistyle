@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Сплачено
+{% endblock %}
+
+
+{% block main %}
+<div class="container">
+	<div class="content cart-subtotal">
+		<div><div style="margin-top: 300px"></div></div>
+		<h2>Оплата пройшла успішно! Дякуємо за покупку!</h2>
+		<p>Ви можете продовжити покупки<p>
+		<a href="{% url "shop:index" %}">На головну сторінку</a>
+		<div><div style="margin-top: 190px"></div></div>
+	</div>
+</div>
+{% endblock %}

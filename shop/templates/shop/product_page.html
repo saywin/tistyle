@@ -160,12 +160,15 @@
 								<div style="display: flex; justify-content: space-between; align-items: center;">
 									<span>Артикул: {{ product.article }}</span>
 									{% if avg_rate %}
-										<span>Рейтинг:
-											{% for _ in avg_rate|get_positive_range %}
-												<i class="fas fa-star" style="color: #d19e66;"></i>
-												</span>
-											{% endfor %}
-										({{ avg_rate }})
+										<span style="display: flex; align-items: center; gap: 5px;">
+                    Рейтинг:
+                    <span style="display: flex; gap: 2px;">
+                    {% for _ in avg_rate|get_positive_range %}
+	                    <i class="fas fa-star" style="color: #d19e66;"></i>
+                    {% endfor %}
+                    </span>
+                    ({{ avg_rate }})
+                  </span>
 									{% else %}
 										Ще немає рейтингу
 									{% endif %}
@@ -174,59 +177,79 @@
 								<span class="price">Ціна : {{ product.price }}</span>грн.
 								<div class="size-variation">
 									<span>Розмір :</span>
-									<select name="size-value">
+									<select name="size-value" id="size-select">
 										<option value="" selected disabled>---</option>
 										{% for variant in sizes %}
 											<option value="{{ variant.size.id }}">{{ variant.size.name }}</option>
 										{% endfor %}
 									</select>
 
-								</div>
+									<div class="color-checkboxes">
+										<h4 style="float: right;">Колір: {{ product.color }}</h4>
+									</div>
 
-								<div class="color-checkboxes">
-									<h4 style="float: right;">Колір: {{ product.color }}</h4>
-								</div>
-								{% if request.user.is_authenticated %}
-									{% get_favorite_products request.user as fav_products %}
-								{% endif %}
-								<div class="color-checkboxes">
-									{% if product in fav_products and request.user.is_authenticated %}
-										<a href="{% url "wishlist:add_favorite" product.slug %}"
-										   style="color: #636363"><i class="fas fa-heart" style="color: #d19e66;"></i> Видалити з
-											обраних</a>
-									{% else %}
-										<a href="{% url "wishlist:add_favorite" product.slug %}" class="far fa-heart me-2"
-										   style="color: #636363"> Додати в обрані</a>
+									{% if request.user.is_authenticated %}
+										{% get_favorite_products request.user as fav_products %}
 									{% endif %}
+
+									<div class="color-checkboxes">
+										{% if product in fav_products and request.user.is_authenticated %}
+											<a href="{% url "wishlist:add_favorite" product.slug %}"
+											   style="color: #636363"><i class="fas fa-heart" style="color: #d19e66;"></i> Видалити з
+												обраних</a>
+										{% else %}
+											<a href="{% url "wishlist:add_favorite" product.slug %}" class="far fa-heart me-2"
+											   style="color: #636363"> Додати в обрані</a>
+										{% endif %}
+									</div>
+
+									<div class="add-tocart-wrap">
+										<a href="#" id="add-to-cart-btn" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Додати
+											до кошику</a>
+									</div>
+
+									<script>
+                      document.getElementById('add-to-cart-btn').addEventListener('click', function (event) {
+                          event.preventDefault(); // Зупиняємо стандартну поведінку (перехід по лінку)
+
+                          const sizeSelect = document.getElementById('size-select');
+                          const selectedSizeId = sizeSelect.value;
+
+                          if (!selectedSizeId) {
+                              alert('Будь ласка, виберіть розмір!');
+                              return;
+                          }
+
+                          // Отримуємо URL для додавання товару в кошик з параметрами
+                          const productId = {{ product.id }}; // Ідентифікатор продукту
+                          const action = 'add'; // Дія - додавання в кошик
+
+                          // Створюємо URL для додавання в кошик з вибраним розміром
+                          const url = `{% url 'cart:add_to_cart' product.id 0 'add' %}`.replace('0', selectedSizeId);
+
+                          window.location.href = url; // Перенаправляємо на цей URL
+                      });
+									</script>
+
+
+									<p>{{ product.description }}</p>
+
+									<div class="product-social">
+										<span>Поділитись :</span>
+										<ul>
+											<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+											<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+											<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+											<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+										</ul>
+									</div>
+
 								</div>
-
-
-								<div class="add-tocart-wrap">
-									<!--PRODUCT INCREASE BUTTON START-->
-									{#									<div class="cart-plus-minus-button">#}
-									{#										<input type="text" value="1" name="qtybutton" class="cart-plus-minus">#}
-									{#									</div>#}
-									<a href="#" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Додати до кошику</a>
-								</div>
-
-								<p>{{ product.description }}</p>
-
-								<div class="product-social">
-									<span>Поділитись :</span>
-									<ul>
-										<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-										<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fab fa-instagram"></i></a></li>
-										<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-									</ul>
-								</div>
-
+								<!-- /.product-details -->
 							</div>
-							<!-- /.product-details -->
+							<!-- /.col-xl-6 -->
+
 						</div>
-						<!-- /.col-xl-6 -->
-
-
 						<div class="col-xl-12">
 							<div class="product-des-tab">
 								<ul class="nav nav-tabs " role="tablist">
@@ -308,14 +331,14 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- /.row -->
 					</div>
-					<!-- /.row -->
+					<!-- /.col-xl-9 -->
 				</div>
-				<!-- /.col-xl-9 -->
+				<!-- /.row -->
 			</div>
-			<!-- /.row -->
-		</div>
-		<!-- /.container-fluid -->
+			<!-- /.container-fluid -->
 	</section>
 	<!-- /.shop-area -->
 
@@ -327,25 +350,28 @@
 			<!-- /.section-heading-->
 			<div class="row inner-wrapper">
 				<!-- Single product -->
-				{% for similar_good in similar_goods %}
+				{% for product in similar_goods %}
 					<div class="col-sm-6 col-lg-3 col-xl-3">
-						<div class="sin-product">
-							<div class="pro-img">
-								<img src="{{ similar_good.get_first_photo }}" alt="">
-							</div>
-							<div class="mid-wrapper">
-								<h5 class="pro-title"><a href="product.html">{{ similar_good.title }}</a></h5>
-								<span>{{ similar_good.price }} грн.</span>
-							</div>
-							<div class="pro-icon">
-								<ul>
-									<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-									<li><a href="#"><i class="flaticon-shopping-cart"></i></a></li>
-									<li><a href="#" class="trigger"><i class="flaticon-zoom-in"></i></a></li>
-								</ul>
-							</div>
-						</div>
+						{% include "shop/components/_product_card.html" %}
 					</div>
+					{#					<div class="col-sm-6 col-lg-3 col-xl-3">#}
+					{#						<div class="sin-product">#}
+					{#							<div class="pro-img">#}
+					{#								<img src="{{ similar_good.get_first_photo }}" alt="">#}
+					{#							</div>#}
+					{#							<div class="mid-wrapper">#}
+					{#								<h5 class="pro-title"><a href="product.html">{{ similar_good.title }}</a></h5>#}
+					{#								<span>{{ similar_good.price }} грн.</span>#}
+					{#							</div>#}
+					{#							<div class="pro-icon">#}
+					{#								<ul>#}
+					{#									<li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>#}
+					{#									<li><a href="#"><i class="flaticon-shopping-cart"></i></a></li>#}
+					{#									<li><a href="#" class="trigger"><i class="flaticon-zoom-in"></i></a></li>#}
+					{#								</ul>#}
+					{#							</div>#}
+					{#						</div>#}
+					{#					</div>#}
 				{% endfor %}
 
 			</div>

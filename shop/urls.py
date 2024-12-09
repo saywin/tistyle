@@ -12,4 +12,5 @@ urlpatterns = [
         name="category_detail",
     ),
     path("product/<slug:slug>", views.ProductPage.as_view(), name="product_page"),
+    path("search/", views.SearchResult.as_view(), name="search"),
 ]

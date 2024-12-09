@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block main %}
+	<section class="breadcrumb-area">
+			<div class="container-fluid custom-container">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="bc-inner">
+							<p><a href="{% url "shop:index" %}">Головна  |</a> {{ title }}</p>
+						</div>
+					</div>
+					<!-- /.col-xl-12 -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container -->
+		</section>
+	<section class="cart-area">
+			<div class="container-fluid custom-container">
+				<div class="row">
+					<div class="col-xl-9">
+						<div class="cart-table">
+							<table class="tables">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Фото</th>
+										<th>Назва товару</th>
+										<th>Розмір</th>
+										<th>Кількість</th>
+										<th>Ціна</th>
+										<th>Загальна ціна</th>
+									</tr>
+								</thead>
+								<tbody>
+								{% for item in products_to_cart %}
+									{% include "shop/components/_cart_row.html" %}
+								{% endfor %}
+									<!-- /.single product  -->
+								</tbody>
+							</table>
+
+						</div>
+						<!-- /.cart-table -->
+						<div class="row cart-btn-section">
+							<div class="col-12 col-sm-8 col-lg-6">
+								<div class="cart-btn-left">
+									<a href="{% url "shop:index" %}">На головну</a>
+								</div>
+							</div>
+							<!-- /.col-xl-6 -->
+							<!-- /.col-xl-6 -->
+						</div>
+						<!-- /.row -->
+					</div>
+					<!-- /.col-xl-9 -->
+					<div class="col-xl-3">
+						<div class="cart-subtotal">
+							<p>Кошик</p>
+							<ul>
+								<li><span>Товари</span>{{ cart_total_quantity }} шт.</li>
+								<li><span>Всього:</span>{{ cart_total_price }} грн.</li>
+							</ul>
+							<a href="{% url "order:checkout" %}">Оформити покупку</a>
+						</div>
+						<!-- /.cart-subtotal -->
+
+
+					</div>
+					<!-- /.col-xl-3 -->
+				</div>
+			</div>
+		</section>
+{% endblock %}

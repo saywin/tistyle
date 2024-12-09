@@ -1,0 +1,56 @@
+<tr>
+
+
+
+<td>
+		<a href="{% url "cart:add_to_cart" item.product.pk item.size.pk "remove" %}"><i class="bi bi-x-square-fill" style="color: red"></i></a>
+	</td>
+	<td>
+		<a href="{% url "shop:product_page" item.product.slug %}">
+			<div class="product-image">
+				<img alt="Stylexpo" src="{{ item.product.get_first_photo }}" width="60">
+			</div>
+		</a>
+	</td>
+	<td>
+		<div class="product-title">
+			<a href="{% url "shop:product_page" item.product.slug %}">{{ item.product.title }}</a>
+		</div>
+	</td>
+	<td>
+		<ul>
+			<li>
+				<div class="price-box">
+					<span class="price">{{ item.size }}</span>
+				</div>
+			</li>
+		</ul>
+	</td>
+	<td class="p-3 align-middle border-light">
+  <div class="d-flex align-items-center justify-content-center">
+    {% if "cart" in request.path %}
+      <a href="{% url 'cart:add_to_cart' item.product.pk item.size.pk 'delete' %}" class="btn btn-sm btn-outline-secondary me-2">
+        <i class="fas fa-minus"></i>
+      </a>
+      <span class="fw-bold text-center mx-2" style="width: 30px;">{{ item.quantity }}</span>
+      <a href="{% url 'cart:add_to_cart' item.product.pk item.size.pk 'add' %}" class="btn btn-sm btn-outline-secondary ms-2">
+        <i class="fas fa-plus"></i>
+      </a>
+    {% endif %}
+  </div>
+</td>
+	<td>
+		<ul>
+			<li>
+				<div class="price-box">
+					<span class="price">{{ item.product.price }} x {{ item.quantity }}</span>
+				</div>
+			</li>
+		</ul>
+	</td>
+	<td>
+		<div class="total-price-box">
+			<span class="price">{{ item.get_total_price }} грн.</span>
+		</div>
+	</td>
+</tr>
