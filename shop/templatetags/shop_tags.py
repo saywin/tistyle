@@ -1,8 +1,4 @@
 from django import template
-from django.db.models import Avg
-
-from cart.utils import CartForAuthenticatedUser
-from review.models import ReviewDB
 from shop.models import CategoryDB
 
 from django.template.defaulttags import register as range_register

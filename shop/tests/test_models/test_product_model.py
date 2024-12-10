@@ -45,7 +45,7 @@ def product_variant(size, product):
 
 
 @pytest.mark.django_db
-def test_product_create(product):
+def test_product_create(product, category):
     assert product.title == "Test Product"
     assert product.article == "00000"
     assert product.description == "Test Description"
@@ -138,7 +138,7 @@ def test_subcategories(category, subcategory):
 
 
 @pytest.mark.django_db
-def test_category_slug_uniqueness(db, category):
+def test_category_slug_uniqueness(category):
     """Перевірка унікальності slug"""
     with pytest.raises(IntegrityError):
         CategoryDB.objects.create(title="Test Category 2", slug="category")

@@ -1,7 +1,6 @@
 from datetime import timedelta, datetime
 
 import pytest
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from review.forms import ReviewForm
