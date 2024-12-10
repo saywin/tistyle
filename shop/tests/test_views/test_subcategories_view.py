@@ -1,8 +1,8 @@
 import pytest
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from shop.models import ProductDB, CategoryDB, SizeDB, ProductVariantDB
+from shop.tests.fixtures import user
 
 
 @pytest.fixture
@@ -25,14 +25,6 @@ def category_child(category_parent):
         image="shop/tests/1.jpg",
     )
     return category
-
-
-@pytest.fixture
-def user():
-    user = get_user_model().objects.create_user(
-        "Test User", "test@test.com", "testpassword"
-    )
-    return user
 
 
 @pytest.fixture
@@ -84,7 +76,7 @@ def product_3(user, category_child):
 
 
 @pytest.fixture
-def url(client, category_parent):
+def url(category_parent):
     return reverse("shop:category_detail", kwargs={"slug": category_parent.slug})
 
 

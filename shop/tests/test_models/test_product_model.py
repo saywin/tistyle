@@ -59,7 +59,7 @@ def test_product_create(product):
 
 @pytest.mark.django_db
 def test_product_autosave_slug(product):
-    assert product.slug == "test-product-2"
+    assert product.slug == f"test-product-{product.id}"
 
 
 @pytest.mark.django_db
