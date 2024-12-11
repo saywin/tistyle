@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block main %}
+	{% include "components/_breadcrumb.html" %}
+	<section class="google-map">
+		<div class="row no-gutters">
+			<div class="col-md-6 col-lg-6">
+					<iframe
+							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2542.1632059322665!2d30.62904937609605!3d50.419430789597435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4c50e8a4891e5%3A0x593df038330dd41d!2z0KLQpiDigJxBdWNoYW4gUml2ZSBHYXVjaGXigJ0!5e0!3m2!1sru!2sua!4v1733908526321!5m2!1sru!2sua"
+							width="820"
+							height="600"
+							style="border:0;"
+							allowfullscreen=""
+							loading="lazy"
+							referrerpolicy="no-referrer-when-downgrade">
+					</iframe>
+
+				<!-- /.google-map -->
+			</div>
+			<!-- /.col-xl-6 -->
+			<div class="col-md-6 col-lg-6">
+				<div class="contact-info">
+					<h5>Магазин одягу TiStyle</h5>
+					<span>Україна</span>
+					<p>Адреса: вулиця Здолбунівська, 17, Київ, 02000</p>
+					<p>Понеділок - Субота:<span> 9:00 - 19:00</span></p>
+					<p>Номер телефона:<span> 099 099 99 99</span></p>
+				</div>
+			</div>
+			<!-- /.col-xl-6 -->
+		</div>
+		<!-- /.row -->
+	</section>
+	<section class="contact-area">
+		<div class="container-fluid custom-container">
+			<div class="section-heading pb-30">
+				<h3>Написати <span>нам</span></h3>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-8 col-lg-8 col-xl-6">
+					<div class="contact-form">
+						<form action="{% url "notifications:contact" %}" method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-xl-6">
+									{{ form.name }}
+								</div>
+								<div class="col-xl-6">
+									{{ form.email }}
+								</div>
+								<div class="col-xl-12">
+									{{ form.message }}
+								</div>
+								<div class="col-xl-12">
+									<input type="submit" value="Відправити">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- /.row end -->
+		</div>
+		<!-- /.container-fluid end -->
+	</section>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.db.models import Avg, Prefetch, Q
+from django.db.models import Avg, Prefetch, Q, F
 from django.views import generic
 
 from review.forms import ReviewForm
@@ -128,6 +128,9 @@ class ProductPage(generic.DetailView):
         context["count_reviews"] = reviews.count()
         context["avg_rate"] = reviews.aggregate(avg_rating=Avg("grade")).get(
             "avg_rating"
+        )
+        ProductDB.objects.filter(slug=self.kwargs["slug"]).update(
+            watched=F("watched") + 1
         )
         return context
 
