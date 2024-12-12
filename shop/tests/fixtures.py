@@ -8,6 +8,7 @@ from shop.models import (
     ProductVariantDB,
     GalleryDB,
 )
+from users.models import CustomerDB
 
 
 @pytest.fixture
@@ -73,20 +74,26 @@ def product_3(user, category):
 
 
 @pytest.fixture
-def variants(product_1, product_2):
-    size = [SizeDB.objects.create(name=size) for size in ["36", "37", "38"]]
+def sizes():
+    sizes = [SizeDB.objects.create(name=size) for size in [36, 37, 38]]
+    return sizes
+
+
+@pytest.fixture
+def variants(product_1, product_2, sizes):
+
     variants = [
         ProductVariantDB.objects.create(
-            size=size[0], product=product_1, stock_quantity=2
+            size=sizes[0], product=product_1, stock_quantity=2
         ),
         ProductVariantDB.objects.create(
-            size=size[1], product=product_1, stock_quantity=0
+            size=sizes[1], product=product_1, stock_quantity=0
         ),
         ProductVariantDB.objects.create(
-            size=size[2], product=product_1, stock_quantity=4
+            size=sizes[2], product=product_1, stock_quantity=4
         ),
         ProductVariantDB.objects.create(
-            size=size[2], product=product_2, stock_quantity=1
+            size=sizes[2], product=product_2, stock_quantity=1
         ),
     ]
     return variants
@@ -97,3 +104,14 @@ def images(product_1):
     image_1 = GalleryDB.objects.create(image="shop/tests/1.jpg", product=product_1)
     image_2 = GalleryDB.objects.create(image="shop/tests/2.jpg", product=product_1)
     return [image_1, image_2]
+
+
+@pytest.fixture
+def customer(user):
+    customer = CustomerDB.objects.create(
+        user=user,
+        first_name="Test name",
+        last_name="Test last name",
+        phone="0990990999",
+    )
+    return customer
