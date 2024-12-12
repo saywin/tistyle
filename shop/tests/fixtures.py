@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth import get_user_model
 
+from cart.models import CartItemDB, CartDB
 from shop.models import (
     ProductDB,
     CategoryDB,
@@ -115,3 +116,25 @@ def customer(user):
         phone="0990990999",
     )
     return customer
+
+
+@pytest.fixture
+def cart(customer, user):
+    return CartDB.objects.create(customer=customer)
+
+
+@pytest.fixture
+def cart_items(cart, sizes, product_1, product_3, product_2):
+    cart_item_1 = CartItemDB.objects.create(
+        product=product_1, cart=cart, quantity=2, size=sizes[0]
+    )
+    cart_item_2 = CartItemDB.objects.create(
+        product=product_1, cart=cart, quantity=3, size=sizes[1]
+    )
+    cart_item_3 = CartItemDB.objects.create(
+        product=product_3, cart=cart, quantity=4, size=sizes[2]
+    )
+    cart_item_4 = CartItemDB.objects.create(
+        product=product_2, cart=cart, quantity=1, size=sizes[0]
+    )
+    return [cart_item_1, cart_item_2, cart_item_3, cart_item_4]

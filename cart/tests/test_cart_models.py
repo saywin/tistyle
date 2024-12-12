@@ -13,33 +13,11 @@ from shop.tests.fixtures import (
 
 
 @pytest.fixture
-def cart(customer, user):
-    return CartDB.objects.create(customer=customer)
-
-
-@pytest.fixture
 def cart_item(cart, product_1, sizes, category):
     cart_item = CartItemDB.objects.create(
         product=product_1, cart=cart, quantity=2, size=sizes[0]
     )
     return cart_item
-
-
-@pytest.fixture
-def cart_items(cart, sizes, product_1, product_3, product_2):
-    cart_item_1 = CartItemDB.objects.create(
-        product=product_1, cart=cart, quantity=2, size=sizes[0]
-    )
-    cart_item_2 = CartItemDB.objects.create(
-        product=product_1, cart=cart, quantity=3, size=sizes[1]
-    )
-    cart_item_3 = CartItemDB.objects.create(
-        product=product_3, cart=cart, quantity=4, size=sizes[2]
-    )
-    cart_item_4 = CartItemDB.objects.create(
-        product=product_2, cart=cart, quantity=1, size=sizes[0]
-    )
-    return [cart_item_1, cart_item_2, cart_item_3, cart_item_4]
 
 
 @pytest.mark.django_db
