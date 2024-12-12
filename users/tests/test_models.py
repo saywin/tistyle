@@ -1,24 +1,8 @@
 import pytest
 from django.contrib.auth import get_user_model
 
-from users.models import CustomerDB
 
-
-@pytest.fixture
-def user():
-    user = get_user_model().objects.create_user("test", "test@test.com", "testpassword")
-    return user
-
-
-@pytest.fixture
-def customer(user):
-    customer = CustomerDB.objects.create(
-        user=user,
-        first_name="Test name",
-        last_name="Test last name",
-        phone="0990990999",
-    )
-    return customer
+from shop.tests.fixtures import user, customer
 
 
 @pytest.mark.django_db
