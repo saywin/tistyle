@@ -130,9 +130,8 @@ class ProductPage(generic.DetailView):
         )
         context["reviews"] = reviews
         context["count_reviews"] = reviews.count()
-        context["avg_rate"] = round(
-            reviews.aggregate(avg_rating=Avg("grade")).get("avg_rating"), 1
-        )
+        avg_rate = reviews.aggregate(avg_rating=Avg("grade")).get("avg_rating")
+        context["avg_rate"] = round(avg_rate, 1) if avg_rate else avg_rate
         ProductDB.objects.filter(slug=self.kwargs["slug"]).update(
             watched=F("watched") + 1
         )

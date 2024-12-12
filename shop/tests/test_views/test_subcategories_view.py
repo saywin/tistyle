@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 
 from shop.models import ProductDB, CategoryDB, SizeDB, ProductVariantDB
-from shop.tests.fixtures import user
+from shop.tests.fixtures import user, add_watched
 
 
 @pytest.fixture
@@ -181,7 +181,14 @@ def test_product_filter_size(
 
 @pytest.mark.django_db
 def test_subcategory_get_context_data_unauthenticated(
-    url, client, category_parent, product_1, product_2, product_3, category_child, user
+    url,
+    client,
+    category_parent,
+    product_1,
+    product_2,
+    product_3,
+    category_child,
+    user,
 ):
     size_36 = SizeDB.objects.create(name=36)
     size_37 = SizeDB.objects.create(name=37)
@@ -207,3 +214,21 @@ def test_subcategory_get_context_data_authenticated(
     response = client.get(url)
 
     assert "fav_products" in response.context
+
+
+@pytest.mark.django_db
+def test_subcategory_get_context_data_best_seller(
+    product_1, product_2, product_3, client, url, add_watched
+):
+    product_2.watched = 6
+    product_3.watched = 4
+    product_2.save()
+    product_3.save()
+
+    response = client.get(url)
+
+    assert list(response.context["best_sellers"]) == [
+        product_2,
+        product_3,
+        product_1,
+    ]

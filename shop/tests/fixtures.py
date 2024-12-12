@@ -1,7 +1,13 @@
 import pytest
 from django.contrib.auth import get_user_model
 
-from shop.models import ProductDB, CategoryDB, SizeDB, ProductVariantDB, GalleryDB
+from shop.models import (
+    ProductDB,
+    CategoryDB,
+    SizeDB,
+    ProductVariantDB,
+    GalleryDB,
+)
 
 
 @pytest.fixture

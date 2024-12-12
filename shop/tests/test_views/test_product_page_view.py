@@ -105,3 +105,16 @@ def test_product_context_avg_rate(url, client, reviews):
 
     response = client.get(url)
     assert response.context["avg_rate"] == avg_rate
+
+
+@pytest.mark.django_db
+def test_product_context_best_seller(url, client, product_1, product_2, product_3):
+    product_3.watched = 5
+    product_3.save()
+
+    response = client.get(url)
+
+    assert list(response.context["best_sellers"]) == [
+        product_3,
+        product_2,
+    ]
