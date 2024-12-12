@@ -1,0 +1,26 @@
+<div class="sidebar-widget product-widget">
+	<h6>Популярні товари</h6>
+	{% for best_product in best_sellers %}
+		<div class="wid-pro">
+		<div class="sp-img">
+			<img src="{{ best_product.get_first_photo }}" alt="" width="120px">
+		</div>
+		<div class="small-pro-details">
+			<h5 class="title"><a href="{% url "shop:product_page" best_product.slug %}">{{ best_product.title }}</a></h5>
+			<p>{{ best_product.color }}</p>
+			<span>{{ best_product.price }} грн.</span><br>
+
+
+{#			<div class="rating">#}
+{#				<ul>#}
+{#					<li><a href="#"><i class="far fa-star"></i></a></li>#}
+{#					<li><a href="#"><i class="far fa-star"></i></a></li>#}
+{#					<li><a href="#"><i class="far fa-star"></i></a></li>#}
+{#					<li><a href="#"><i class="far fa-star"></i></a></li>#}
+{#					<li><a href="#"><i class="far fa-star"></i></a></li>#}
+{#				</ul>#}
+{#			</div>#}
+		</div>
+	</div>
+	{% endfor %}
+</div>

@@ -89,6 +89,10 @@ class SubCategories(generic.ListView):
         context["sizes"] = sizes.order_by("name")
         if self.request.user.is_authenticated:
             context["fav_products"] = get_favorite_products(self.request.user)
+        subcategories = models.CategoryDB.objects.filter(parent=parent_category)
+        context["best_sellers"] = ProductDB.objects.filter(
+            category__in=subcategories
+        ).order_by("-watched")[:3]
         return context
 
 
@@ -126,12 +130,13 @@ class ProductPage(generic.DetailView):
         )
         context["reviews"] = reviews
         context["count_reviews"] = reviews.count()
-        context["avg_rate"] = reviews.aggregate(avg_rating=Avg("grade")).get(
-            "avg_rating"
+        context["avg_rate"] = round(
+            reviews.aggregate(avg_rating=Avg("grade")).get("avg_rating"), 1
         )
         ProductDB.objects.filter(slug=self.kwargs["slug"]).update(
             watched=F("watched") + 1
         )
+        context["best_sellers"] = similar_goods.order_by("-watched")[:3]
         return context
 
 
