@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Avg
 
 from shop.models import ProductDB
 from users.models import User
