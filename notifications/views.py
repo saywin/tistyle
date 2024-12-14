@@ -23,13 +23,11 @@ def save_subscribers(request: HttpRequest) -> HttpResponse:
 
 def send_email_to_subscribers(request: HttpRequest) -> HttpResponse:
     """Відправка розсилки всім"""
-    from django.core.mail import send_mail
 
     if request.method == "POST":
         title = request.POST.get("title_send_email")
         text = request.POST.get("text_send_email")
         send_msg_all_emails_browser.delay(title=title, text=text)
-        print(f"Відправлено все --- {bool(send_mail)}")
 
     context = {"title": "Спамер"}
 
