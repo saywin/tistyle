@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 
 from shop.models import ProductDB, CategoryDB, SizeDB, ProductVariantDB
-from shop.tests.fixtures import user, add_watched
+from shop.tests.fixtures import user
 
 
 @pytest.fixture
@@ -218,7 +218,7 @@ def test_subcategory_get_context_data_authenticated(
 
 @pytest.mark.django_db
 def test_subcategory_get_context_data_best_seller(
-    product_1, product_2, product_3, client, url, add_watched
+    product_1, product_2, product_3, client, url
 ):
     product_2.watched = 6
     product_3.watched = 4

@@ -1,7 +1,9 @@
 import pytest
 from django.contrib.auth import get_user_model
+from django.http import HttpRequest
 
 from cart.models import CartItemDB, CartDB
+from cart.utils import CartForAuthenticatedUser
 from shop.models import (
     ProductDB,
     CategoryDB,
@@ -138,3 +140,16 @@ def cart_items(cart, sizes, product_1, product_3, product_2):
         product=product_2, cart=cart, quantity=1, size=sizes[0]
     )
     return [cart_item_1, cart_item_2, cart_item_3, cart_item_4]
+
+
+@pytest.fixture
+def user_request(user):
+    request = HttpRequest()
+    request.user = user
+    return request
+
+
+@pytest.fixture
+def cart_logic(user_request):
+    cart_logic = CartForAuthenticatedUser(user_request)
+    return cart_logic
