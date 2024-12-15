@@ -77,7 +77,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ["price", "color", "article"]
 
     def save_model(self, request, obj, form, change):
-        print(request.user)
         if not obj.user:
             obj.user = request.user
         obj.save()

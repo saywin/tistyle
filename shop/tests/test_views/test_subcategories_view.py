@@ -1,8 +1,8 @@
 import pytest
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from shop.models import ProductDB, CategoryDB, SizeDB, ProductVariantDB
+from shop.tests.fixtures import user
 
 
 @pytest.fixture
@@ -25,14 +25,6 @@ def category_child(category_parent):
         image="shop/tests/1.jpg",
     )
     return category
-
-
-@pytest.fixture
-def user():
-    user = get_user_model().objects.create_user(
-        "Test User", "test@test.com", "testpassword"
-    )
-    return user
 
 
 @pytest.fixture
@@ -84,7 +76,7 @@ def product_3(user, category_child):
 
 
 @pytest.fixture
-def url(client, category_parent):
+def url(category_parent):
     return reverse("shop:category_detail", kwargs={"slug": category_parent.slug})
 
 
@@ -189,7 +181,14 @@ def test_product_filter_size(
 
 @pytest.mark.django_db
 def test_subcategory_get_context_data_unauthenticated(
-    url, client, category_parent, product_1, product_2, product_3, category_child, user
+    url,
+    client,
+    category_parent,
+    product_1,
+    product_2,
+    product_3,
+    category_child,
+    user,
 ):
     size_36 = SizeDB.objects.create(name=36)
     size_37 = SizeDB.objects.create(name=37)
@@ -215,3 +214,21 @@ def test_subcategory_get_context_data_authenticated(
     response = client.get(url)
 
     assert "fav_products" in response.context
+
+
+@pytest.mark.django_db
+def test_subcategory_get_context_data_best_seller(
+    product_1, product_2, product_3, client, url
+):
+    product_2.watched = 6
+    product_3.watched = 4
+    product_2.save()
+    product_3.save()
+
+    response = client.get(url)
+
+    assert list(response.context["best_sellers"]) == [
+        product_2,
+        product_3,
+        product_1,
+    ]

@@ -1,0 +1,67 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    volumes:
+      - my_db:$PGDATA
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7-alpine
+
+  celery_worker:
+    build:
+      context: .
+    command: ["celery", "-A", "conf", "worker", "--loglevel=info"]
+    depends_on:
+      - redis
+      - app
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+
+  celery_beat:
+    build:
+      context: .
+    command: celery -A conf beat --loglevel=info
+    depends_on:
+      - redis
+      - app
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+
+  flower:
+    image: mher/flower:0.9.5
+    command: celery flower --broker=redis://redis:6379/0 -l INFO
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
+volumes:
+  my_db:

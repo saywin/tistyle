@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 
 import pytest
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from shop.models import CategoryDB, ProductDB
+from shop.models import CategoryDB
+from shop.tests.fixtures import product_1, product_2, user
 
 
 @pytest.fixture
@@ -19,49 +19,8 @@ def category():
 
 
 @pytest.fixture
-def user():
-    user = get_user_model().objects.create_user(
-        "Test User", "test@test.com", "testpassword"
-    )
-    return user
-
-
-@pytest.fixture
-def product_1(user, category):
-    product_1 = ProductDB.objects.create(
-        title="Test product",
-        article="00000",
-        description="Test description",
-        info="Test info",
-        price=1,
-        material="skin",
-        color="Black",
-        category=category,
-        user=user,
-    )
-    return product_1
-
-
-@pytest.fixture
-def product_2(user, category):
-    product_2 = ProductDB.objects.create(
-        title="Test product 2",
-        article="00001",
-        description="Test description",
-        info="Test info",
-        price=2,
-        material="skin",
-        color="White",
-        category=category,
-        user=user,
-    )
-    return product_2
-
-
-@pytest.fixture
 def response(client):
-    response = client.get(reverse("shop:index"))
-    return response
+    return client.get(reverse("shop:index"))
 
 
 @pytest.mark.django_db
@@ -70,7 +29,10 @@ def test_index_extra_content(response):
 
 
 @pytest.mark.django_db
-def test_get_queryset(client):
+def test_get_queryset(
+    client,
+    response,
+):
     parent_category = CategoryDB.objects.create(
         title="Test parent category",
         slug="test-parent-category",

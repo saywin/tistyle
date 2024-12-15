@@ -7,6 +7,9 @@ from conf import settings
 class User(AbstractUser):
     pass
 
+    def __str__(self):
+        return self.username
+
 
 class CustomerDB(models.Model):
     """Контактна інформація замовника"""
@@ -21,7 +24,7 @@ class CustomerDB(models.Model):
     )
     first_name = models.CharField(max_length=150, verbose_name="Ім'я")
     last_name = models.CharField(max_length=150, verbose_name="Прізвище")
-    email = models.EmailField(null=True, blank=True, verbose_name="Електронна пошта")
+    email = models.EmailField(blank=True, verbose_name="Електронна пошта")
     phone = models.CharField(max_length=20, verbose_name="Контактний номер")
 
     def __str__(self):

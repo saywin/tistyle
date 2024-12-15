@@ -1,4 +1,3 @@
-from conf import settings
 from conf.celery import app as background_task
 
 from notifications.service import send, send_all_email, send_email_browser

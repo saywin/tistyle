@@ -24,6 +24,21 @@ class CartDBAdmin(admin.ModelAdmin):
 class CartItemDBAdmin(admin.ModelAdmin):
     """Товари в кошику"""
 
-    list_display = ("id", "product", "quantity", "added_at", "get_total_price")
-    readonly_fields = ("product", "quantity", "added_at", "get_total_price")
+    list_display = (
+        "id",
+        "product",
+        "quantity",
+        "added_at",
+        "get_total_price_admin",
+    )
+    readonly_fields = (
+        "product",
+        "quantity",
+        "added_at",
+        "get_total_price_admin",
+    )
     list_filter = ("product",)
+
+    @admin.display(description="Загальна вартість")
+    def get_total_price_admin(self, obj):
+        return obj.get_total_price

@@ -2,7 +2,7 @@ from django.db.models import Prefetch
 from django.http import HttpRequest
 
 from cart.models import CartDB, CartItemDB
-from shop.models import ProductDB, ProductVariantDB, SizeDB, GalleryDB
+from shop.models import ProductDB, ProductVariantDB, GalleryDB
 from users.models import CustomerDB
 
 
@@ -59,12 +59,12 @@ class CartForAuthenticatedUser:
 
         if action == "add" and cart_product.quantity < product_variant.stock_quantity:
             cart_product.quantity += 1
+            cart_product.save()
         elif action == "delete" and cart_product.quantity > 1:
             cart_product.quantity -= 1
+            cart_product.save()
         elif action == "delete" and cart_product.quantity == 1:
             cart_product.delete()
-
-        cart_product.save()
 
         if action == "remove" or cart_product.quantity < 1:
             cart_product.delete()

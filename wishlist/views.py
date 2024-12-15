@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import ListView
 
 from shop.models import ProductDB, GalleryDB
@@ -44,6 +44,12 @@ class FavoriteProductView(LoginRequiredMixin, ListView):
         )
         products = [i.product for i in favorites]
         return products
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        best_sellers = ProductDB.objects.order_by("-watched")[:3]
+        context["best_sellers"] = best_sellers
+        return context
 
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     context = super().get_context_data()
