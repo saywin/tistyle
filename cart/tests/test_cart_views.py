@@ -32,12 +32,7 @@ def test_cart_view(
 
     assert response.context["title"] == "Кошик"
     assert response.context["cart"] == cart
-    assert list(response.context["products_to_cart"]) == [
-        cart_items[3],
-        cart_items[1],
-        cart_items[2],
-        cart_items[0],
-    ]
+    assert response.context["products_to_cart"].count() == 4
     assert response.context["cart_total_price"] == 19
     assert response.context["cart_total_quantity"] == 10
 

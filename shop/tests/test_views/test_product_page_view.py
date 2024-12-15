@@ -13,6 +13,7 @@ from shop.tests.fixtures import (
     category,
     images,
     user,
+    sizes,
 )
 
 

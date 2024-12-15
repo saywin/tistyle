@@ -12,6 +12,7 @@ from shop.tests.fixtures import (
     variants,
     images,
     user,
+    sizes,
 )
 
 
@@ -63,7 +64,7 @@ def test_admin_category_image(
 
 
 @pytest.mark.django_db
-def test_admin_product_get_quantity(admin_product, variants, product_1):
+def test_admin_product_get_quantity(admin_product, variants, product_1, sizes):
     assert admin_product.get_quantity(product_1) == 6
 
 
