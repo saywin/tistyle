@@ -7,7 +7,6 @@ from django.utils.text import slugify
 from pytils.translit import slugify as translit_slugify
 
 from conf import settings
-from users.models import User
 
 
 class CategoryDB(models.Model):
@@ -83,7 +82,10 @@ class ProductDB(models.Model):
         if self.images.first():
             return self.images.first().image.url
         else:
-            return "https://cdn.pixabay.com/photo/2017/07/28/23/18/coming-soon-2550190_1280.jpg"
+            return (
+                "https://cdn.pixabay.com/photo/"
+                "2017/07/28/23/18/coming-soon-2550190_1280.jpg"
+            )
 
     def get_absolute_url(self):
         return reverse("shop:product_page", kwargs={"slug": self.slug})
@@ -161,3 +163,6 @@ class GalleryDB(models.Model):
         db_table = "gallery"
         verbose_name = "Зображення"
         verbose_name_plural = "Галерея товарів"
+
+    def __str__(self):
+        return self.image.url

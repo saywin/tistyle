@@ -2,7 +2,7 @@ from django.db.models import Prefetch
 from django.http import HttpRequest
 
 from cart.models import CartDB, CartItemDB
-from shop.models import ProductDB, ProductVariantDB, SizeDB, GalleryDB
+from shop.models import ProductDB, ProductVariantDB, GalleryDB
 from users.models import CustomerDB
 
 

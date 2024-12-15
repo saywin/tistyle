@@ -7,7 +7,8 @@ from conf import settings
 def send(user_email: str):
     send_mail(
         subject="tistyle.ua",
-        message="Ви підписались на TiStyle.ua, ми будемо відправляти вам кращі пропозиції",
+        message="Ви підписались на TiStyle.ua, "
+        "ми будемо відправляти вам кращі пропозиції",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[user_email],
         fail_silently=False,

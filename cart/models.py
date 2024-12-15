@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import UniqueConstraint
 
 from shop.models import ProductDB, SizeDB
 from users.models import CustomerDB
@@ -14,7 +13,10 @@ class CartDB(models.Model):
         null=True,
         related_name="Покупець",
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Час створення")
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Час створення"
+    )
     is_completed = models.BooleanField(default=False, verbose_name="Завершено")
     shipping = models.BooleanField(default=True, verbose_name="Доставка")
 

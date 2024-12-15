@@ -15,9 +15,9 @@ CHOICES = (
 class ReviewDB(models.Model):
     """Модель для відгуків"""
 
-    text = models.TextField(null=True, blank=True, verbose_name="Текст")
+    text = models.TextField(blank=True, verbose_name="Текст")
     product = models.ForeignKey(
-        "shop.ProductDB",
+        ProductDB,
         on_delete=models.CASCADE,
         related_name="reviews",
         verbose_name="Товар",

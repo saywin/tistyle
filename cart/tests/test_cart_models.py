@@ -1,12 +1,14 @@
 import pytest
 
-from cart.models import CartDB, CartItemDB
+from cart.models import CartItemDB
 from shop.tests.fixtures import (
     customer,
     user,
     product_1,
     product_2,
     product_3,
+    cart,
+    cart_items,
     sizes,
     category,
 )
@@ -21,7 +23,7 @@ def cart_item(cart, product_1, sizes, category):
 
 
 @pytest.mark.django_db
-def test_cart_create(cart, customer):
+def test_cart_create(cart, customer, user):
 
     assert cart.customer == customer
     assert cart.is_completed is False
@@ -34,7 +36,7 @@ def test_cart_str(cart):
 
 
 @pytest.mark.django_db
-def test_cart_get_price_total_cart(cart_items, cart):
+def test_cart_get_price_total_cart(cart_items, cart, product_1, product_2, product_3):
     res = 0
     for item in cart_items:
         res += item.product.price * item.quantity
@@ -42,7 +44,9 @@ def test_cart_get_price_total_cart(cart_items, cart):
 
 
 @pytest.mark.django_db
-def test_cart_get_cart_total_quantity(cart_items, cart):
+def test_cart_get_cart_total_quantity(
+    cart_items, cart, product_1, product_2, product_3
+):
     assert cart.get_cart_total_quantity == 10
 
 
